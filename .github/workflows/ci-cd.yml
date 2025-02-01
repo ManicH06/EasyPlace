@@ -45,8 +45,8 @@ jobs:
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
         run: |
-          # The '--prod --confirm' flags deploy to production automatically.
-          npx vercel --prod --confirm
+          # '--prod --confirm' deploye sur la production
+          npx vercel --token ${{ secrets.VERCEL_TOKEN }} --prod --yes
 
   deploy-back:
     name: Deploy Backend to Render
