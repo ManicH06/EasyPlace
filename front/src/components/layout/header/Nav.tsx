@@ -3,10 +3,9 @@
 import * as React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Menu, UserCircle, X } from "lucide-react";
+import { Menu, UserCircle } from "lucide-react";
 import { usePathname } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
@@ -32,14 +31,34 @@ interface NavigationProps {
 }
 
 export default function Navigation({ onMenuToggle }: NavigationProps) {
-  const [isOpen, setIsOpen] = React.useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const userLink = isAuthenticated ? "/profile-user" : "/auth";
 
+  // State to control navbar visibility
+  const [showNavbar, setShowNavbar] = useState(true);
+  // Ref to store the last scroll position
+  const lastScrollY = useRef(0);
+
   useEffect(() => {
-    // Lire le cookie "authToken" via une requête HTTP GET car on n'a pas accès aux cookies côté client (httpOnly)
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      if (currentScrollY > lastScrollY.current) {
+        setShowNavbar(false);
+      } else {
+        setShowNavbar(true);
+      }
+      lastScrollY.current = currentScrollY;
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    // Vérification de l'authentification via le backend
     const checkAuth = async () => {
       try {
         const token = await axios.get("http://localhost:5000/auth/status", {
@@ -59,10 +78,21 @@ export default function Navigation({ onMenuToggle }: NavigationProps) {
   }, [isOpen, onMenuToggle, pathname]);
 
   return (
-    <nav className="sticky top-0 z-50 bg-black bg-opacity-50 px-4 py-4">
+    <nav
+      className={cn(
+        "sticky top-0 z-50 bg-black bg-opacity-50 px-4 py-4 transition-transform duration-300",
+        // Apply transform based on scroll direction
+        showNavbar ? "translate-y-0" : "-translate-y-full"
+      )}
+    >
       <div className="mx-auto flex max-w-7xl items-center justify-between">
         <Link href="/">
-          <Image width={150} height={69} src="logo.svg" alt="logo easyplace" />
+          <Image
+            width={250}
+            height={100}
+            src="easylogo.svg"
+            alt="logo easyplace"
+          />
         </Link>
 
         {/* Desktop Navigation */}

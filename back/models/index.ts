@@ -1,60 +1,64 @@
+// src/models/index.ts
 import fs from "fs";
 import path from "path";
-import { Sequelize, DataTypes } from "sequelize";
-import { Dialect } from "sequelize/types";
-import configJson from "../config/config.json";
+import sequelize from "../src/db/db"; // Vérifiez bien le chemin
+import { DataTypes, Model } from "sequelize";
 
-// Détecter l'environnement
-const env = process.env.NODE_ENV || "development";
-const config = (configJson as Record<string, any>)[env];
-const basename = path.basename(__filename);
+const models: Record<string, any> = {};
+const modelsPath = path.resolve(__dirname, "./");
 
-// Base de données et configuration Sequelize
-const db: Record<string, any> = {};
-let sequelize: Sequelize;
-
-if (config.use_env_variable) {
-  // Utiliser une URL de connexion depuis les variables d'environnement
-  sequelize = new Sequelize(process.env[config.use_env_variable] as string, config);
-} else {
-  // Configuration manuelle
-  sequelize = new Sequelize(
-    config.database as string,
-    config.username as string,
-    config.password as string,
-    {
-      host: config.host as string,
-      port: config.port as number,
-      dialect: config.dialect as Dialect,
-      logging: config.logging || false, // Désactiver les logs SQL par défaut
-    }
-  );
-}
-
-// Lecture des fichiers de modèles dans le dossier actuel
-fs.readdirSync(__dirname)
+fs.readdirSync(modelsPath)
   .filter((file) => {
     return (
-      file.indexOf(".") !== 0 && // Ignorer les fichiers cachés
-      file !== basename && // Ignorer le fichier index.ts
-      file.slice(-3) === ".js" && // Prendre uniquement les fichiers .js ou .ts
-      file.indexOf(".test.js") === -1 // Ignorer les fichiers de test
+      file.indexOf(".") !== 0 &&
+      (file.slice(-3) === ".js" || file.slice(-3) === ".ts") &&
+      file.indexOf(".test.js") === -1 &&
+      file !== "index.ts"
     );
   })
   .forEach((file) => {
-    const model = require(path.join(__dirname, file))(sequelize, DataTypes);
-    db[model.name] = model;
+    const modelModule = require(path.join(modelsPath, file));
+    // Récupérer l'export par défaut si présent
+    const exported = modelModule.default || modelModule;
+
+    let model;
+    // Si l'export est une fonction d'initialisation (non déjà initialisée)
+    if (
+      typeof exported === "function" &&
+      !(exported.prototype instanceof Model)
+    ) {
+      try {
+        model = exported(sequelize, DataTypes);
+      } catch (err) {
+        console.error(
+          `Erreur lors de l'initialisation du modèle ${file}:`,
+          err
+        );
+      }
+    }
+    // Sinon, si l'export est une classe déjà initialisée (vérifiée par instanceof Model)
+    else if (
+      exported &&
+      typeof exported === "function" &&
+      exported.prototype instanceof Model
+    ) {
+      model = exported;
+    } else {
+      console.error(
+        `Le fichier ${file} n'exporte pas un modèle Sequelize valide.`
+      );
+      return;
+    }
+    if (model && model.name) {
+      models[model.name] = model;
+    }
   });
 
-// Configurer les associations des modèles
-Object.keys(db).forEach((modelName) => {
-  if (db[modelName].associate) {
-    db[modelName].associate(db);
+// Configurer les associations des modèles, si nécessaire
+Object.keys(models).forEach((modelName) => {
+  if (models[modelName].associate) {
+    models[modelName].associate(models);
   }
 });
 
-// Exporter Sequelize et les modèles
-db.sequelize = sequelize;
-db.Sequelize = Sequelize;
-
-export default db;
+export default models;

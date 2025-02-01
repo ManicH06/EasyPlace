@@ -1,28 +1,11 @@
 'use client'
 
-import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { Product } from '@/@types/types'
 import { Card, CardContent } from "@/components/ui/card"
-import { getSuggestedProducts } from '../../../../data/product'
 
-interface SuggestedProduct {
-  id: string
-  name: string
-  price: number
-  image: string
-}
-
-export default function SuggestedProducts() {
-  const [products, setProducts] = useState<SuggestedProduct[]>([])
-
-  useEffect(() => {
-    const fetchProducts = async () => {
-      const suggestedProducts = await getSuggestedProducts()
-      setProducts(suggestedProducts)
-    }
-    fetchProducts()
-  }, [])
+export default function SuggestedProducts(products: Product[]) {
 
   return (
     <div>
@@ -33,7 +16,7 @@ export default function SuggestedProducts() {
             <Card className="h-full hover:shadow-lg transition-shadow">
               <CardContent className="p-4">
                 <Image
-                  src={product.image}
+                  src={product.image_url}
                   alt={product.name}
                   width={200}
                   height={200}

@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import Shop from "../../models/Shop";
+import { Sequelize } from "sequelize";
 
 // Récupérer tous les shops
 export const getAllShops = async (
@@ -12,6 +13,30 @@ export const getAllShops = async (
         { association: "user" }, // Inclut l'utilisateur associé
         { association: "products" }, // Optionnel : inclut les produits associés
       ],
+    });
+    res.status(200).json(shops);
+    return;
+  } catch (error) {
+    res.status(500).json({
+      error: "Erreur lors de la récupération des shops",
+      details: error,
+    });
+    return;
+  }
+};
+
+export const getRandomShops = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const shops = await Shop.findAll({
+      include: [
+        { association: "user" }, // Inclut l'utilisateur associé
+        { association: "products" }, // Optionnel : inclut les produits associés
+      ],
+      order: Sequelize.literal("RANDOM()"),
+      limit: 6,
     });
     res.status(200).json(shops);
     return;

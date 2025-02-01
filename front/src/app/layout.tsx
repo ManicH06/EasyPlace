@@ -21,15 +21,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr">
-      <body className="background-gradient min-h-screen">
-        <Header />
-        <CartProvider>
-          {children}
-          <FloatingCart />
-        </CartProvider>
-        <Footer />
-      </body>
-    </html>
+    <>
+      <html lang="fr">
+        <body className="background-gradient min-h-screen">
+          <Header />
+          <CartProvider>
+            {children}
+            <FloatingCart />
+          </CartProvider>
+          <Footer />
+        </body>
+      </html>
+    </>
   );
 }

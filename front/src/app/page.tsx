@@ -1,25 +1,43 @@
+"use client"
+
 // Import components
 import CardShopSection from "@/components/pages/home/CardShopSection";
 import PresentationSection from "@/components/pages/home/PresentationSection";
 import FilterForm from "@/components/pages/home/FilterForm";
 import HeroSection from "@/components/pages/home/HeroSection";
 import CategoryShowcase from "@/components/pages/home/CategorySowcase";
+import axios from "axios";
+import { useState, useEffect } from "react";
+import { Boutique } from "@/@types/types";
 
 // Import data
-import { boutiques } from "../../data/boutiques";
 import ProductSlider from "@/components/pages/home/ProductSlider";
 
-
-const sampleProducts = [
-  { id: '1', name: 'Smartphone XYZ', price: 699.99, image: '/placeholder.svg?height=300&width=300' },
-  { id: '2', name: 'Laptop ABC', price: 1299.99, image: '/placeholder.svg?height=300&width=300' },
-  { id: '3', name: 'Casque audio', price: 199.99, image: '/placeholder.svg?height=300&width=300' },
-  { id: '4', name: 'Montre connectée', price: 249.99, image: '/placeholder.svg?height=300&width=300' },
-  { id: '5', name: 'Enceinte Bluetooth', price: 89.99, image: '/placeholder.svg?height=300&width=300' },
-]
-
-
 export default function Home() {
+  const [boutiques, setBoutiques] = useState<Boutique[]>([]);
+  const [products, setProducts] = useState([]);
+  useEffect(() => {
+    const getPromotedProducts = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/products");
+        setProducts(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    const getPromotedBoutiaues = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:5000/shops/promoteshops"
+        );
+        setBoutiques(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getPromotedBoutiaues();
+    getPromotedProducts();
+  }, []);
   return (
     <>
       <div>
@@ -31,11 +49,14 @@ export default function Home() {
           <div className="bg-white">
             <section className="container mx-auto px-4 pt-32 pb-6">
               <h1 className="text-2xl font-bold text-center mb-8">
-               Trouvez la boutique qui vous correspond ! 
+                 Trouvez la boutique qui vous correspond ! 
               </h1>
               <CardShopSection boutiques={boutiques} />
               <CategoryShowcase />
-              <ProductSlider products={sampleProducts} title="Quelques produits populaires" />
+              <ProductSlider
+                products={products}
+                title="Quelques produits populaires"
+              />
             </section>
           </div>
           <PresentationSection />

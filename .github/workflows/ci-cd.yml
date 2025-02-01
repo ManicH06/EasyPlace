@@ -1,0 +1,76 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-test:
+    name: Build and Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Run Tests
+        run: npm test
+
+  deploy-front:
+    name: Deploy Frontend to Vercel
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install Frontend Dependencies
+        working-directory: ./front
+        run: npm install
+
+      - name: Deploy Frontend to Vercel
+        working-directory: ./front
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          # The '--prod --confirm' flags deploy to production automatically.
+          npx vercel --prod --confirm
+
+  deploy-back:
+    name: Deploy Backend to Render
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Build Docker Image for Backend
+        working-directory: ./back
+        run: |
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/easyplace-back:latest .
+
+      - name: Login to Docker Hub
+        run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login --username ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+
+      - name: Push Docker Image for Backend
+        run: |
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/easyplace-back:latest
+
+      - name: Trigger Render Deployment
+        run: |
+          # Replace 'srv-XXXXX' with your Render service ID.
+          curl -X POST "https://api.render.com/deploy/srv-XXXXX/trigger" \
+            -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}"

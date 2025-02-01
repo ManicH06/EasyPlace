@@ -1,9 +1,23 @@
+"use client"
+
 import ProductList from "@/components/pages/market/ProductList";
 import FilterPanel from "@/components/pages/market/FilterPanel";
-import { getProducts } from "../../../data/product";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
-export default async function MarketplacePage() {
-  const products = await getProducts();
+export default function MarketplacePage() {
+  const [products, setProducts] = useState([]);
+  useEffect(() => {
+    const getProducts = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/products");
+        setProducts(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getProducts();
+  }, [])
 
   return (
     <div className="container mx-auto py-10">
@@ -15,7 +29,7 @@ export default async function MarketplacePage() {
       </div>
 
       <div className="bg-white rounded-lg p-6 shadow-sm">
-        <ProductList initialProducts={products} />
+        <ProductList products={products} />
       </div>
     </div>
   );

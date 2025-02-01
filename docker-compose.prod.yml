@@ -1,0 +1,37 @@
+version: "3.8"
+services:
+  front:
+    container_name: front
+    build:
+      context: ./front
+      dockerfile: Dockerfile
+    ports:
+      - "${FRONT_PORT}:${FRONT_PORT}"
+    environment:
+      - BACKEND_URL=http://back:${BACK_PORT}
+    depends_on:
+      - back
+    networks:
+      - front
+  back:
+    container_name: back
+    build:
+      context: ./back
+      dockerfile: Dockerfile
+    ports:
+      - "${BACK_PORT}:${BACK_PORT}"
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+      - JWT_SECRET=${JWT_SECRET}
+      - FRONT_URL=${FRONT_URL}
+      - NEON_USER=${NEON_USER}
+      - NEON_PASSWORD=${NEON_PASSWORD}
+      - NEON_DB=$NEON_DBB}
+      - NEON_HOST=${NEON_HOST}
+      - NEON_PORT=${NEON_PORT}
+    networks:
+      - front
+
+networks:
+  front:
+    driver: bridge

@@ -36,6 +36,13 @@ const footerSections: FooterSection[] = [
       { href: '/faq', label: 'FAQ' },
     ],
   },
+  {
+    title: 'Mentions légales',
+    links: [
+      { href: '/cgu', label: 'CGU et Mentions légales' },
+      { href: '/politique)de)confidentiqlite', label: 'Politique de confidentialité' },
+    ],
+  },
 ]
 
 function FooterSection({ section }: { section: FooterSection }) {
@@ -81,7 +88,7 @@ export default function Footer() {
             <FooterSection key={section.title} section={section} />
           ))}
         </div>
-        <div className="hidden md:grid md:grid-cols-3 md:gap-8">
+        <div className="hidden md:grid md:grid-cols-4 md:gap-8">
           {footerSections.map((section) => (
             <div key={section.title}>
               <h3 className="text-lg font-semibold mb-4">{section.title}</h3>

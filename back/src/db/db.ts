@@ -1,30 +1,44 @@
-import { Sequelize } from "sequelize";
+// src/db/database.ts
 import dotenv from "dotenv";
+import path from "path";
+import { Sequelize, Dialect } from "sequelize";
+import configModule from "../../config/config";
 
-dotenv.config(); // Charger les variables d'environnement
+dotenv.config({ path: path.resolve(process.cwd(), "../.env") });
+console.log("test:", process.env.DATABASE_URL);
+console.log("process.cwd():", process.cwd());
+type Env = "development" | "production";
+const env = (process.env.NODE_ENV || "production") as Env;
 
-// Initialiser Sequelize avec les variables d'environnement
-const sequelize = new Sequelize(
-  process.env.POSTGRES_DB as string,
-  process.env.POSTGRES_USER as string,
-  process.env.POSTGRES_PASSWORD as string,
-  {
-    host: process.env.POSTGRES_HOST || "localhost",
-    port: Number(process.env.POSTGRES_PORT || 5432),
-    dialect: "postgres",
-    logging: false, // Désactiver les logs SQL
-  }
-);
+const config = {
+  ...configModule[env],
+  dialect: configModule[env].dialect as Dialect,
+  password: configModule[env].password || undefined,
+  logging: configModule[env].logging || false,
+};
 
-// Fonction pour tester la connexion
+const connectionUrl = process.env[config.use_env_variable as string];
+if (!connectionUrl) {
+  throw new Error(
+    `Environment variable ${config.use_env_variable} is not set.`
+  );
+}
+console.log("Using connection URL:", connectionUrl);
+
+const sequelize = new Sequelize(connectionUrl, config);
+
+// Load all models from the models folder
+import fs from "fs";
+const modelsPath = path.resolve(__dirname, "../../models/");
+
 export const connectToDB = async (): Promise<void> => {
   try {
     await sequelize.authenticate();
-    console.log("Connexion à la base de données réussie.");
+    console.log("Database connection successful.");
   } catch (error) {
-    console.error("Erreur lors de la connexion à la base de données :", error);
-    throw error; // Propager l'erreur pour la gérer dans app.ts
+    console.error("Error connecting to the database:", error);
+    throw error;
   }
 };
-
+console.log("Sequelize instance created:", !!sequelize);
 export default sequelize;

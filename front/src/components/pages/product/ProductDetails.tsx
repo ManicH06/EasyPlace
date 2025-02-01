@@ -4,14 +4,7 @@ import { useState } from 'react'
 import Image from 'next/image'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-
-interface Product {
-  id: string
-  name: string
-  description: string
-  price: number
-  image: string
-}
+import { Product } from "@/@types/types"
 
 export default function ProductDetails({ product }: { product: Product }) {
   const [quantity, setQuantity] = useState(1)
@@ -25,7 +18,7 @@ export default function ProductDetails({ product }: { product: Product }) {
     <div className="flex flex-col md:flex-row gap-8">
       <div className="md:w-1/2">
         <Image
-          src={product.image}
+          src={product.image_url}
           alt={product.name}
           width={500}
           height={500}
@@ -35,7 +28,7 @@ export default function ProductDetails({ product }: { product: Product }) {
       <div className="md:w-1/2">
         <h1 className="text-3xl font-bold mb-4">{product.name}</h1>
         <p className="text-xl font-semibold mb-4">{product.price.toFixed(2)} €</p>
-        <p className="text-gray-600 mb-6">{product.description}</p>
+        <p className="text-gray-600 mb-6">{product.descripton}</p>
         <div className="flex items-center gap-4 mb-6">
           <Input
             type="number"

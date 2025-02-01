@@ -4,8 +4,10 @@ import userRouter from "./routes/user/index";
 import productRouter from "./routes/product/index";
 import errorHandler from "./middlewares/errorHandler";
 import HTTPError from "./errors/HTTPError";
-import sequelize, { connectToDB } from "./db/db";
+import sequelize from "./db/db";
+import { connectToDB } from "./db/db";
 import { Request, Response } from "express";
+import models from "../models";
 
 const router = Router();
 
@@ -35,13 +37,12 @@ router.use(errorHandler);
 // Connecter à la base de données et synchroniser
 (async () => {
   try {
-    await connectToDB(); // Vérifier la connexion
-    await sequelize.sync({ alter: true }); // Synchroniser les modèles avec la base de données
+    await connectToDB();
+    await sequelize.sync({ alter: true });
     console.log("Les modèles ont été synchronisés avec la base de données.");
   } catch (error) {
     console.error("Erreur lors de la connexion à la base de données :", error);
-    process.exit(1); // Quitter l'application si la connexion échoue
+    process.exit(1);
   }
 })();
-
 export default router;

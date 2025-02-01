@@ -2,7 +2,7 @@
 import CardShopSection from "@/components/pages/home/CardShopSection";
 import SearchSegment from "@/components/pages/boutiques/SearchSegment";
 import axios from "axios";
-import { Boutique } from "@/@types/boutique";
+import { Boutique } from "@/@types/types";
 import { useEffect, useState } from "react";
 
 export default function BoutiquesPage() {

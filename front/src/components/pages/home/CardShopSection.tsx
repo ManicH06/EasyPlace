@@ -1,5 +1,5 @@
 import CardShop from "./CardShop";
-import type { Boutique } from "../../../../src/@types/boutique";
+import type { Boutique } from "@/@types/types";
 
 interface CardShopSectionProps {
   boutiques: Boutique[];
