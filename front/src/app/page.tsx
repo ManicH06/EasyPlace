@@ -19,7 +19,8 @@ export default function Home() {
   useEffect(() => {
     const getPromotedProducts = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/products");
+      
+        const response = await axios.get(`${process.env.API_URL}/products`);
         setProducts(response.data);
       } catch (error) {
         console.error(error);
@@ -28,7 +29,7 @@ export default function Home() {
     const getPromotedBoutiaues = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/shops/promoteshops"
+          "API_URL/shops/promoteshops"
         );
         setBoutiques(response.data);
       } catch (error) {

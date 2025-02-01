@@ -25,7 +25,7 @@ jobs:
 
   deploy-front:
     name: Deploy Frontend to Vercel
-#    needs: build-and-test
+    #    needs: build-and-test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -69,6 +69,6 @@ jobs:
 
       - name: Trigger Render Deployment
         run: |
-          # Replace 'srv-XXXXX' with your Render service ID.
-          curl -X POST "https://api.render.com/deploy/srv-XXXXX/trigger" \
+          curl -X POST "https://api.render.com/deploy/srv-cuf8n60gph6c7381v210/trigger" \
             -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}"
+

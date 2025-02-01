@@ -11,7 +11,7 @@ export default function BoutiquesPage() {
   useEffect(() => {
     const getBoutiques = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/shops");
+        const response = await axios.get(`${process.env.API_URL}/shops`);
         console.log(response);
         setBoutiques(response.data);
       } catch (error) {

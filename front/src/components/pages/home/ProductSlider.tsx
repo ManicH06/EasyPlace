@@ -49,7 +49,7 @@ export default function ProductSlider({ title }: ProductSliderProps) {
   useEffect(() => {
     const getPromotedProducts = async () => {
       try {
-        const products = await axios.get("http://localhost:5000/products/");
+        const products = await axios.get(`${process.env.API_URL}/products/`);
         setPromotedProducts(products.data);
       } catch (error) {
         console.error("Erreur lors de la récupération des produits :", error);

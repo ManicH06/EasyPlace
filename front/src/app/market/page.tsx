@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import ProductList from "@/components/pages/market/ProductList";
 import FilterPanel from "@/components/pages/market/FilterPanel";
@@ -10,14 +10,14 @@ export default function MarketplacePage() {
   useEffect(() => {
     const getProducts = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/products");
+        const response = await axios.get(`${process.env.API_URL}/products`);
         setProducts(response.data);
       } catch (error) {
         console.error(error);
       }
     };
     getProducts();
-  }, [])
+  }, []);
 
   return (
     <div className="container mx-auto py-10">
