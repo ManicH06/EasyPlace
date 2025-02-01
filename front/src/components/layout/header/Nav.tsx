@@ -61,9 +61,12 @@ export default function Navigation({ onMenuToggle }: NavigationProps) {
     // Vérification de l'authentification via le backend
     const checkAuth = async () => {
       try {
-        const token = await axios.get(`${process.env.API_URL}/auth/status`, {
-          withCredentials: true,
-        });
+        const token = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/auth/status`,
+          {
+            withCredentials: true,
+          }
+        );
         setIsAuthenticated(token.data.isAuthenticated);
       } catch (error) {
         console.error(

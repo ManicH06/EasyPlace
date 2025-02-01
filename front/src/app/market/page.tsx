@@ -10,7 +10,9 @@ export default function MarketplacePage() {
   useEffect(() => {
     const getProducts = async () => {
       try {
-        const response = await axios.get(`${process.env.API_URL}/products`);
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/products`
+        );
         setProducts(response.data);
       } catch (error) {
         console.error(error);

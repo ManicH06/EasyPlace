@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 // Import components
 import CardShopSection from "@/components/pages/home/CardShopSection";
@@ -19,8 +19,9 @@ export default function Home() {
   useEffect(() => {
     const getPromotedProducts = async () => {
       try {
-      
-        const response = await axios.get(`${process.env.API_URL}/products`);
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/products`
+        );
         setProducts(response.data);
       } catch (error) {
         console.error(error);
@@ -29,7 +30,7 @@ export default function Home() {
     const getPromotedBoutiaues = async () => {
       try {
         const response = await axios.get(
-          "API_URL/shops/promoteshops"
+          `${process.env.NEXT_PUBLIC_API_URL}/shops/promoteshops`
         );
         setBoutiques(response.data);
       } catch (error) {

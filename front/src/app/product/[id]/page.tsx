@@ -13,7 +13,9 @@ export default function ProductPage({ params }: { params: { id: string } }) {
   useEffect(() => {
     const getProduct = async () => {
       try {
-        const response = await axios.get(`${process.env.API_URL}/products/${id}`);
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/products/${id}`
+        );
         setProduct(response.data);
       } catch (error) {
         console.error(error);
