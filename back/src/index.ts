@@ -10,7 +10,8 @@ app.use(cookieParser());
 // Ajouter les middlewares globaux
 app.use(
   cors({
-    origin: process.env.FRONT_URL,
+    //origin: process.env.FRONT_URL,
+    origin: "*",
     credentials: true,
   })
 );
