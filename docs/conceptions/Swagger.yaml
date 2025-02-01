@@ -1,0 +1,463 @@
+openapi: 3.0.3
+info:
+  title: Marketplace API
+  version: 1.0.0
+  description: |
+    API complète pour une plateforme de marketplace locale
+    - Gestion des utilisateurs, boutiques, produits
+    - Système de commandes et d'avis
+    - Authentification sécurisée
+servers:
+  - url: /api/v1
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Authentification par token JWT
+
+  schemas:
+    ErreurValidation:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        details:
+          type: array
+          items:
+            type: string
+
+    Role:
+      type: object
+      required:
+        - nom
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        nom:
+          type: string
+          minLength: 2
+          maxLength: 50
+          example: "Administrateur"
+
+    Utilisateur:
+      type: object
+      required:
+        - nom
+        - email
+        - mot_de_passe
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        nom:
+          type: string
+          minLength: 2
+          maxLength: 100
+        email:
+          type: string
+          format: email
+        mot_de_passe:
+          type: string
+          format: password
+          writeOnly: true
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/Role'
+        date_inscription:
+          type: string
+          format: date-time
+          readOnly: true
+
+    Boutique:
+      type: object
+      required:
+        - siret
+        - nom_entreprise
+        - email
+        - utilisateur_id
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        siret:
+          type: string
+          pattern: '^\d{14}$'
+        nom_entreprise:
+          type: string
+          minLength: 2
+          maxLength: 200
+        email:
+          type: string
+          format: email
+        utilisateur_id:
+          type: integer
+        adresse:
+          type: object
+          properties:
+            rue:
+              type: string
+            ville:
+              type: string
+            code_postal:
+              type: string
+              pattern: '^\d{5}$'
+
+    Produit:
+      type: object
+      required:
+        - nom
+        - prix
+        - stock
+        - categorie
+        - producteur_id
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        nom:
+          type: string
+          minLength: 2
+          maxLength: 200
+        description:
+          type: string
+          maxLength: 1000
+        prix:
+          type: number
+          minimum: 0
+          exclusiveMinimum: true
+        stock:
+          type: integer
+          minimum: 0
+        categorie:
+          type: string
+          enum: 
+            - Fruits
+            - Légumes
+            - Produits laitiers
+            - Viandes
+            - Épicerie
+        producteur_id:
+          type: integer
+        image_url:
+          type: string
+          format: uri
+
+    Commande:
+      type: object
+      required:
+        - utilisateur_id
+        - produits
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        utilisateur_id:
+          type: integer
+        statut:
+          type: string
+          enum:
+            - En attente
+            - Payée
+            - Expédiée
+            - Livrée
+            - Annulée
+        produits:
+          type: array
+          minItems: 1
+          items:
+            type: object
+            required:
+              - produit_id
+              - quantite
+            properties:
+              produit_id:
+                type: integer
+              quantite:
+                type: integer
+                minimum: 1
+        total:
+          type: number
+          readOnly: true
+        date_commande:
+          type: string
+          format: date-time
+          readOnly: true
+
+    Avis:
+      type: object
+      required:
+        - texte
+        - etoiles
+        - utilisateur_id
+        - produit_id
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        texte:
+          type: string
+          minLength: 10
+          maxLength: 500
+        etoiles:
+          type: integer
+          minimum: 1
+          maximum: 5
+        utilisateur_id:
+          type: integer
+        produit_id:
+          type: integer
+        date_creation:
+          type: string
+          format: date-time
+          readOnly: true
+        reponses:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReponseAvis'
+
+    ReponseAvis:
+      type: object
+      required:
+        - texte
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        texte:
+          type: string
+          minLength: 5
+          maxLength: 500
+        utilisateur_id:
+          type: integer
+        date_creation:
+          type: string
+          format: date-time
+          readOnly: true
+
+  parameters:
+    PageParam:
+      name: page
+      in: query
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+    LimitParam:
+      name: limit
+      in: query
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+
+paths:
+  /login:
+    post:
+      summary: Connexion utilisateur
+      description: Authentifie un utilisateur et génère un token JWT
+      tags:
+        - Authentification
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - mot_de_passe
+              properties:
+                email:
+                  type: string
+                  format: email
+                mot_de_passe:
+                  type: string
+                  format: password
+      responses:
+        '200':
+          description: Connexion réussie
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                  utilisateur:
+                    $ref: '#/components/schemas/Utilisateur'
+        '401':
+          description: Identifiants incorrects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErreurValidation'
+
+  /register:
+    post:
+      summary: Inscription utilisateur
+      description: Crée un nouveau compte utilisateur
+      tags:
+        - Authentification
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - nom
+                - email
+                - mot_de_passe
+              properties:
+                nom:
+                  type: string
+                email:
+                  type: string
+                  format: email
+                mot_de_passe:
+                  type: string
+                  format: password
+      responses:
+        '201':
+          description: Utilisateur créé avec succès
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Utilisateur'
+        '400':
+          description: Erreur de validation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErreurValidation'
+
+  /utilisateurs:
+    get:
+      summary: Lister les utilisateurs
+      description: Récupère la liste des utilisateurs avec pagination
+      tags:
+        - Utilisateurs
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/LimitParam'
+        - name: role
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Liste des utilisateurs
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  utilisateurs:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Utilisateur'
+                  total:
+                    type: integer
+                  page:
+                    type: integer
+                  limite:
+                    type: integer
+
+  /utilisateurs/{id}:
+    get:
+      summary: Détails d'un utilisateur
+      tags:
+        - Utilisateurs
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Détails de l'utilisateur
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Utilisateur'
+        '404':
+          description: Utilisateur non trouvé
+
+    put:
+      summary: Mettre à jour un utilisateur
+      tags:
+        - Utilisateurs
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nom:
+                  type: string
+                email:
+                  type: string
+                  format: email
+      responses:
+        '200':
+          description: Utilisateur mis à jour
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Utilisateur'
+        '400':
+          description: Erreur de validation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErreurValidation'
+
+  /utilisateurs/{id}/boutiques:
+    get:
+      summary: Boutiques de l'utilisateur
+      tags:
+        - Utilisateurs
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Liste des boutiques de l'utilisateur
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Boutique'
+
+externalDocs:
+  description: Documentation supplémentaire
+  url: https://marketplace.com/docs

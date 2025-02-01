@@ -1,0 +1,23 @@
+# Utilise l'image Node.js
+FROM node:18
+
+# Répertoire de travail
+WORKDIR /app
+
+# Copie les fichiers package.json et package-lock.json
+COPY package*.json ./
+
+# Installation des dépendances
+RUN npm install
+
+# Copie tout le projet
+COPY . .
+
+# Construire le projet Next.js
+RUN npm run build
+
+# Expose le port dynamique via ENV
+EXPOSE ${FRONT_PORT}
+
+# Commande pour démarrer l'application
+CMD ["npm", "start"]

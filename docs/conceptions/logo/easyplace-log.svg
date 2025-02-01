@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+    <!-- Arrière-plan (couleur légère pour évoquer la nature) -->
+    <rect width="200" height="200" fill="#F0F7E8" />
+
+    <!-- Panier de marché -->
+    <g stroke="#5C5C5C" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Structure du panier -->
+        <path d="M50 120 h100 l10 30 h-120 Z" fill="#FFFFFF" />
+        <!-- Roues du panier -->
+        <circle cx="65" cy="150" r="8" fill="#FF8C42" />
+        <circle cx="135" cy="150" r="8" fill="#FF8C42" />
+    </g>
+
+    <!-- Éléments dans le panier -->
+    <!-- Feuilles et légumes stylisés -->
+    <g fill="#4CAF50" stroke="#5C5C5C" stroke-width="2" stroke-linejoin="round">
+        <!-- Feuilles -->
+        <path d="M70 80 q10 -20 20 0 q-10 20 -20 0 Z" /> <!-- Grande feuille -->
+        <path d="M120 85 q8 -15 15 0 q-8 15 -15 0 Z" /> <!-- Petite feuille -->
+        <!-- Légume (carotte stylisée) -->
+        <path d="M90 90 c0 -5 5 -10 10 -10 s10 5 10 10 -5 10 -10 10 s-10 -5 -10 -10 Z" fill="#FFA726" />
+    </g>
+
+    <!-- Texte du logo -->
+    <text x="50%" y="180" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#5C5C5C" font-weight="bold">
+        EasyPlace
+    </text>
+</svg>
+

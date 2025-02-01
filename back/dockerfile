@@ -1,0 +1,23 @@
+# Utiliser une image Node.js officielle
+FROM node:18
+
+# Définir le répertoire de travail dans le conteneur
+WORKDIR /app
+
+# Copier package.json et package-lock.json d'abord pour profiter du cache Docker
+COPY package*.json ./
+
+# Installer les dépendances
+RUN npm install
+
+# Copier le reste du code de l'application
+COPY . .
+
+# Compiler TypeScript
+RUN npm run build
+
+# Exposer le port sur lequel l'application s'exécute
+EXPOSE 5000
+
+# Commande pour exécuter le JavaScript compilé
+CMD ["node", "-r", "tsconfig-paths/register", "dist/src/index.js"]
