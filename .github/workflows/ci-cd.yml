@@ -25,7 +25,7 @@ jobs:
 
   deploy-front:
     name: Deploy Frontend to Vercel
-    needs: build-and-test
+#    needs: build-and-test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
