@@ -28,8 +28,6 @@ function InteractiveMap({ onRegionHover }: interactiveMapProps) {
   const handleClick = (e: React.MouseEvent<SVGAElement>) => {
     const path = e.target as SVGAElement;
     const region = path.getAttribute("data-name");
-    console.log(region);
-    console.log(`clicked on the region ${region}`);
     router.push(`/region/${region?.toLowerCase()}`);
   };
 

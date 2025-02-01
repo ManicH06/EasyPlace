@@ -4,6 +4,7 @@
 	aria-label="Map of France regions"
 	fill="#fff"
 	stroke="#000"
+	encoding="utf-8"
 >
 	<path
 		id="ara"

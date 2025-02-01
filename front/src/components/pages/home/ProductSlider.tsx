@@ -93,7 +93,6 @@ export default function ProductSlider({ title }: ProductSliderProps) {
     ],
   };
 
-  console.log(promotedProducts);
   return (
     <div className="py-12">
       <div className="container mx-auto px-4">

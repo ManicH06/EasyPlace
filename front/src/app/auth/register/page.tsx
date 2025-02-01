@@ -26,7 +26,6 @@ export default function RegisterPage() {
 
       // Afficher un message de succès
       console.log("Inscription réussie !");
-      console.log(data);
 
       // Rediriger l'utilisateur vers la page de connexion après un délai
       setTimeout(() => {
@@ -38,10 +37,10 @@ export default function RegisterPage() {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       console.error("Erreur d'inscription :", err);
-      console.log("email:", email);
+/*       console.log("email:", email);
       console.log("password:", password);
       console.log("name:", name);
-      console.log("roleId", roleId);
+      console.log("roleId", roleId); */
       console.log("Une erreur est survenue lors de l'inscription.");
       setError(err.message || "Une erreur est survenue.");
     } finally {

@@ -8,7 +8,6 @@ export const registerUser = async (email: string, password: string, name: string
       name,
       roleId
     });
-    console.log(response);
     return response.data; // Retourner les données en cas de succès
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) { 

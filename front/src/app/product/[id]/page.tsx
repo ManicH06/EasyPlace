@@ -9,7 +9,6 @@ import axios from "axios";
 export default function ProductPage({ params }: { params: { id: string } }) {
   const [product, setProduct] = useState<Product | null>(null);
   const { id } = params;
-  console.log("LID EST", id);
   useEffect(() => {
     const getProduct = async () => {
       try {
