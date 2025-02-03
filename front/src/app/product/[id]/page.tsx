@@ -14,7 +14,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
     const getProduct = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/products/${id}`
+          `${process.env.NEXT_PUBLIC_API_URL}/products/${id}`
         );
         setProduct(response.data);
       } catch (error) {

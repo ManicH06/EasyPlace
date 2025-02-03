@@ -63,14 +63,13 @@ Shop.init(
   }
 );
 
-// ✅ Make sure associations are set **after** all models are imported
-const setupAssociations = () => {
+
   Shop.belongsTo(User, { foreignKey: "userId", as: "user" });
   User.hasMany(Shop, { foreignKey: "userId", as: "shops" });
 
   Shop.hasMany(Product, { foreignKey: "shopId", as: "products" });
   Product.belongsTo(Shop, { foreignKey: "shopId", as: "shop" });
-};
+
 
 // ✅ Export both Shop model and the function to initialize associations
-export { Shop, setupAssociations };
+export default Shop;

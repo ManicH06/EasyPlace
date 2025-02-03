@@ -6,7 +6,7 @@ import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { Menu, UserCircle } from "lucide-react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -32,6 +32,7 @@ interface NavigationProps {
 
 export default function Navigation({ onMenuToggle }: NavigationProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
   const pathname = usePathname();
 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -80,6 +81,13 @@ export default function Navigation({ onMenuToggle }: NavigationProps) {
     onMenuToggle(isOpen);
   }, [isOpen, onMenuToggle, pathname]);
 
+  const handleNavigation = () => {
+    if (isAuthenticated) {
+      router.push("/profile-user"); // Redirect to profile
+    } else {
+      router.push("/auth"); // Redirect to login
+    }
+  };
   return (
     <nav
       className={cn(
@@ -90,12 +98,7 @@ export default function Navigation({ onMenuToggle }: NavigationProps) {
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between">
         <Link href="/">
-          <Image
-            width={250}
-            height={100}
-            src="logo.svg"
-            alt="logo easyplace"
-          />
+          <Image width={250} height={100} src="logo.svg" alt="logo easyplace" />
         </Link>
 
         {/* Desktop Navigation */}
@@ -115,6 +118,7 @@ export default function Navigation({ onMenuToggle }: NavigationProps) {
           ))}
 
           <Link
+            onClick={handleNavigation}
             href={userLink}
             className="text-white transition-colors hover:bg-white/20 hover:text-white"
           >
