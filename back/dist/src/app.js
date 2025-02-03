@@ -25,7 +25,7 @@ const router = (0, express_1.Router)();
 router.get("/", (req, res) => {
     res.send("Hello, bienvenue sur l’API !");
 });
-// Ajouter les routes
+// Ajouter les routes 
 router.use("/shops", index_1.default);
 router.use("/users", index_2.default);
 router.use("/products", index_3.default);
@@ -45,11 +45,11 @@ router.use(errorHandler_1.default);
     try {
         yield (0, db_2.connectToDB)();
         yield db_1.default.sync({ alter: true });
-        console.log("Les modèles ont été synchronisés avec la base de données.");
-    }
+        /*     console.log("Les modèles ont été synchronisés avec la base de données.");
+         */ }
     catch (error) {
-        console.error("Erreur lors de la connexion à la base de données :", error);
-        process.exit(1);
+        /*     console.error("Erreur lors de la connexion à la base de données :", error);
+         */ process.exit(1);
     }
 }))();
 exports.default = router;

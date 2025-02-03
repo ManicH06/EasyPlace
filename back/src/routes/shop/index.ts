@@ -19,7 +19,7 @@ router.post("/upload", withTryCatch(shopUploader), (req, res) => {
 router.post("/register", authToken, withTryCatch(createShop));
 
 // Route pour récupérer tous les shops
-router.get("/", withTryCatch(getAllShops));
+router.get("/", withTryCatch(getAllShops)); 
 router.get("/promoteshops", withTryCatch(getRandomShops));
 router.get("/:id", getShop);
 

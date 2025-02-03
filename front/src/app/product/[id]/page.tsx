@@ -9,11 +9,12 @@ import axios from "axios";
 export default function ProductPage({ params }: { params: { id: string } }) {
   const [product, setProduct] = useState<Product | null>(null);
   const { id } = params;
+  console.log(id);
   useEffect(() => {
     const getProduct = async () => {
       try {
         const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/products/${id}`
+          `http://localhost:5000/products/${id}`
         );
         setProduct(response.data);
       } catch (error) {

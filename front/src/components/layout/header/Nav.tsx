@@ -93,7 +93,7 @@ export default function Navigation({ onMenuToggle }: NavigationProps) {
           <Image
             width={250}
             height={100}
-            src="easylogo.svg"
+            src="easyplacelogo.svg"
             alt="logo easyplace"
           />
         </Link>

@@ -6,7 +6,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const dotenv_1 = __importDefault(require("dotenv"));
 const path = require("path");
 dotenv_1.default.config({ path: path.resolve(process.cwd(), ".env") });
-console.log("config.js:", process.env.DATABASE_URL);
 const config = {
     development: {
         use_env_variable: "DATABASE_URL",
@@ -21,6 +20,10 @@ const config = {
                 rejectUnauthorized: false,
             },
         },
+    },
+    test: {
+        use_env_variable: "DATABASE_URL",
+        dialect: "postgres",
     },
 };
 exports.default = config;

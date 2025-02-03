@@ -1,7 +1,7 @@
 import express from "express";
 import router from "./app";
-import cors from "cors";
-import cookieParser from "cookie-parser";
+import cors from "cors"; // Import du module cors pour
+import cookieParser from "cookie-parser"; // pour lire les cookies dans les requêtes
 
 const app = express();
 const PORT = process.env.BACK_PORT || 5000;
@@ -14,10 +14,11 @@ app.use(
     credentials: true,
   })
 );
+
 app.use(express.json());
 app.use(router);
-
 // Démarrer le serveur
-app.listen(PORT, () => {
-  console.log(`Serveur démarré sur http://localhost:${PORT}`);
-});
+if (process.env.NODE_ENV !== "test") {
+  app.listen(PORT);
+}
+export default app;

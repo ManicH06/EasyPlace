@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import Shop from "../../models/Shop";
+import { Shop } from "../../models/Shop";
 import { Sequelize } from "sequelize";
 
 // Récupérer tous les shops

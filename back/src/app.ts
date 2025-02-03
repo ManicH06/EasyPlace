@@ -7,7 +7,6 @@ import HTTPError from "./errors/HTTPError";
 import sequelize from "./db/db";
 import { connectToDB } from "./db/db";
 import { Request, Response } from "express";
-import models from "../models";
 
 const router = Router();
 
@@ -16,7 +15,7 @@ router.get("/", (req, res) => {
   res.send("Hello, bienvenue sur l’API !");
 });
 
-// Ajouter les routes
+// Ajouter les routes 
 router.use("/shops", shopRouter);
 router.use("/users", userRouter);
 router.use("/products", productRouter);
@@ -39,10 +38,10 @@ router.use(errorHandler);
   try {
     await connectToDB();
     await sequelize.sync({ alter: true });
-    console.log("Les modèles ont été synchronisés avec la base de données.");
-  } catch (error) {
-    console.error("Erreur lors de la connexion à la base de données :", error);
-    process.exit(1);
+/*     console.log("Les modèles ont été synchronisés avec la base de données.");
+ */  } catch (error) {
+/*     console.error("Erreur lors de la connexion à la base de données :", error);
+ */    process.exit(1);
   }
 })();
 export default router;

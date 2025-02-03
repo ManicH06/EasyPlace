@@ -8,17 +8,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createShop = exports.getShop = exports.getRandomShops = exports.getAllShops = void 0;
-const Shop_1 = __importDefault(require("../../models/Shop"));
+const Shop_1 = require("../../models/Shop");
 const sequelize_1 = require("sequelize");
 // Récupérer tous les shops
 const getAllShops = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const shops = yield Shop_1.default.findAll({
+        const shops = yield Shop_1.Shop.findAll({
             include: [
                 { association: "user" }, // Inclut l'utilisateur associé
                 { association: "products" }, // Optionnel : inclut les produits associés
@@ -38,7 +35,7 @@ const getAllShops = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 exports.getAllShops = getAllShops;
 const getRandomShops = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const shops = yield Shop_1.default.findAll({
+        const shops = yield Shop_1.Shop.findAll({
             include: [
                 { association: "user" }, // Inclut l'utilisateur associé
                 { association: "products" }, // Optionnel : inclut les produits associés
@@ -62,7 +59,7 @@ exports.getRandomShops = getRandomShops;
 const getShop = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
-        const shop = yield Shop_1.default.findByPk(id, {
+        const shop = yield Shop_1.Shop.findByPk(id, {
             include: [
                 { association: "user" }, // Inclut l'utilisateur associé
                 { association: "products" }, // Optionnel : inclut les produits associés
@@ -94,7 +91,7 @@ const createShop = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             return;
         }
         const userId = req.user.id;
-        const shop = yield Shop_1.default.create({
+        const shop = yield Shop_1.Shop.create({
             siret,
             companyName,
             phone,

@@ -157,15 +157,14 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         }
         // Création du token JWT
         const token = jsonwebtoken_1.default.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET, { expiresIn: "1h" });
-        res.cookie('authToken', token, {
+        res.cookie("authToken", token, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'strict',
-            maxAge: 3600000
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "strict",
+            maxAge: 3600000,
         });
         res.status(200).json({
             message: "Utilisateur connecté avec succès",
-            token,
         });
     }
     catch (error) {

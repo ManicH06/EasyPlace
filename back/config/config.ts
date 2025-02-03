@@ -1,7 +1,6 @@
 import dotenv from "dotenv";
 import path = require("path");
 dotenv.config({ path: path.resolve(process.cwd(), ".env") });
-console.log("config.js:", process.env.DATABASE_URL);
 // config.ts
 
 interface DialectOptions {
@@ -27,6 +26,7 @@ interface SequelizeConfig {
 interface Config {
   development: SequelizeConfig;
   production: SequelizeConfig;
+  test: SequelizeConfig;
 }
 
 const config: Config = {
@@ -43,6 +43,10 @@ const config: Config = {
         rejectUnauthorized: false,
       },
     },
+  },
+  test: {
+    use_env_variable: "DATABASE_URL",
+    dialect: "postgres",
   },
 };
 
