@@ -18,6 +18,7 @@ app.use(
     credentials: true,
   })
 );
+console.log("FRONT_URL:", process.env.FRONT_URL);
 
 app.use(express.json());
 app.use(router);
