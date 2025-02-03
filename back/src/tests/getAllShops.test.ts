@@ -1,6 +1,6 @@
 import request from "supertest";
 import app from "../index";
-import { Shop } from "../../models/Shop";
+import Shop from "../../models/Shop";
 import { jest } from "@jest/globals";
 
 
