@@ -10,7 +10,8 @@ app.use(cookieParser());
 // Ajouter les middlewares globaux
 app.use(
   cors({
-    origin: process.env.FRONT_URL,
+    origin: "https://www.ezplace.tech/"
+    /* origin: process.env.FRONT_URL, */
     credentials: true,
   })
 );
