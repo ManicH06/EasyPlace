@@ -1,45 +1,47 @@
-import { DataTypes, Model, Optional } from "sequelize";
+import { DataTypes, Model } from "sequelize";
 import sequelize from "../src/db/db";
 import Order from "./Order";
 import Product from "./Product";
 
 interface OrderLineAttributes {
-  id: number;
   orderId: number;
-  productId?: number;
+  productId: number;
+  quantity: number;
 }
 
-interface OrderLineCreationAttributes extends Optional<OrderLineAttributes, "id" | "productId"> {}
-
-class OrderLine extends Model<OrderLineAttributes, OrderLineCreationAttributes> implements OrderLineAttributes {
-  public id!: number;
+class OrderLine
+  extends Model<OrderLineAttributes>
+  implements OrderLineAttributes
+{
   public orderId!: number;
-  public productId?: number;
+  public productId!: number;
+  public quantity!: number;
 }
 
 OrderLine.init(
   {
-    id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
-    },
     orderId: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      primaryKey: true, 
     },
     productId: {
       type: DataTypes.INTEGER,
-      allowNull: true,
+      allowNull: false,
+      primaryKey: true, 
+    },
+    quantity: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
     },
   },
   {
     sequelize,
     tableName: "order_lines",
+    timestamps: false,
   }
 );
 
-// Relations
 OrderLine.belongsTo(Order, { foreignKey: "orderId", as: "order" });
 Order.hasMany(OrderLine, { foreignKey: "orderId", as: "orderLines" });
 

@@ -1,0 +1,31 @@
+@startuml ArchitectureSimplifiee
+skinparam componentStyle rectangle
+
+actor Utilisateur
+
+package "Frontend" {
+  [React / Next.js]
+}
+
+package "Backend" {
+  [Express.js]
+  [Sequelize]
+}
+
+package "Base de données (Neon)]" {
+  [PostgreSQL]
+}
+
+package "Stockage Médias (AWS)" {
+  [S3 - Images / Vidéos]
+}
+
+Utilisateur --> [React / Next.js] : Navigue
+[React / Next.js] --> [Express.js] : Requêtes API
+[Express.js] --> [Sequelize] : ORM
+[Sequelize] --> [PostgreSQL] : Données textuelles
+
+[Express.js] --> [S3 - Images / Vidéos] : Upload / lecture\nvia SDK ou API
+[PostgreSQL] --> [Express.js] : URLs des médias
+
+@enduml

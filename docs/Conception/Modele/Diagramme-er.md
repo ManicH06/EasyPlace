@@ -21,7 +21,6 @@ erDiagram
         float price
         int stock
         string category
-        date added_date
         string image_url
         int producer_id FK
     }

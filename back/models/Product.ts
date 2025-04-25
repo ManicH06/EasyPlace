@@ -8,7 +8,6 @@ interface ProductAttributes {
   price: number;
   stock: number;
   category: string;
-  added_date: Date;
   image_url: string;
   shopId?: number;
 }
@@ -26,7 +25,6 @@ class Product
   public price!: number;
   public stock!: number;
   public category!: string;
-  public added_date!: Date;
   public image_url!: string;
   public shopId?: number;
 }
@@ -57,10 +55,6 @@ Product.init(
     category: {
       type: DataTypes.STRING,
       allowNull: false,
-    },
-    added_date: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
     },
     image_url: {
       type: DataTypes.STRING,

@@ -1,0 +1,31 @@
+@startuml
+start
+
+:Accès au site;
+:Navigation libre;
+:Recherche de produit;
+:Voir les boutiques et produits;
+
+if (Produit trouvé ?) then (Oui)
+  :Voir les détails;
+  if (Souhaite réserver ?) then (Oui)
+    if (Connecté ?) then (Oui)
+      :Réserver le produit;
+      :Confirmation commerçant;
+      if (Produit confirmé ?) then (Oui)
+        :Valider la transaction;
+      else (Non)
+        :Produit indisponible;
+      endif
+    else (Non)
+      :Redirection vers Connexion ou Création de compte;
+    endif
+  else (Non)
+    :Ajouter aux favoris (si connecté);
+  endif
+else (Non)
+  :Changer les filtres;
+endif
+
+stop
+@enduml

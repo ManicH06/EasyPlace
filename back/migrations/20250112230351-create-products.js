@@ -29,17 +29,13 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
-      added_date: {
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
-      },
       image_url: {
         type: Sequelize.STRING,
         allowNull: false
       },
       shopId: {
         type: Sequelize.INTEGER,
-        allowNull: true,
+        allowNull: false,
         references: {
           model: 'shops',
           key: 'id'

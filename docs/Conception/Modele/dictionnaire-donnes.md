@@ -27,7 +27,6 @@ Voici le dictionnaire de données correspondant à ce schéma de base de donnée
 | `price` | FLOAT | Prix du produit | Non Null |
 | `stock` | INT | Stock disponible du produit | Non Null |
 | `category` | STRING | Catégorie du produit | Nullable |
-| `added_date` | DATE | Date d'ajout du produit | Non Null |
 | `producer_id` | INT | Producteur associé | Clé Étrangère (FK) |
 
 ## Table BOUTIQUE

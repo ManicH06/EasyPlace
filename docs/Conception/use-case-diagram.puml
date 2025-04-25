@@ -1,0 +1,75 @@
+@startuml DiagrammeCasUtilisation
+left to right direction
+skinparam actorStyle awesome
+skinparam packageStyle rectangle
+
+actor "Visiteur" as Visiteur
+actor "Utilisateur" as Utilisateur
+actor "Vendeur" as Vendeur
+actor "Administrateur" as Admin
+
+' ----- Fonctions accessibles à tous -----
+package "Fonctionnalités publiques" {
+  (Parcourir le site)
+  (Rechercher avec des filtres)
+  (Voir les boutiques et produits)
+  (Créer un compte)
+  (Se connecter)
+  (Récupérer son mot de passe)
+
+  Visiteur --> (Parcourir le site)
+  Visiteur --> (Rechercher avec des filtres)
+  Visiteur --> (Voir les boutiques et produits)
+  Visiteur --> (Créer un compte)
+  Visiteur --> (Se connecter)
+  Visiteur --> (Récupérer son mot de passe)
+}
+
+' ----- Fonctions pour les utilisateurs connectés -----
+package "Fonctionnalités utilisateur" {
+  (Ajouter une boutique aux favoris)
+  (Acheter un produit)
+  (Laisser un avis)
+  (Modifier un avis)
+  (Supprimer un avis)
+  (Faire une demande pour devenir vendeur)
+
+  Utilisateur --> (Ajouter une boutique aux favoris)
+  Utilisateur --> (Acheter un produit)
+  Utilisateur --> (Laisser un avis)
+  Utilisateur --> (Modifier un avis)
+  Utilisateur --> (Supprimer un avis)
+  Utilisateur --> (Faire une demande pour devenir vendeur)
+}
+
+' ----- Fonctions réservées aux vendeurs -----
+package "Fonctionnalités vendeur" {
+  (Créer une boutique)
+  (Modifier sa boutique)
+  (Supprimer sa boutique)
+  (Ajouter un produit)
+  (Modifier un produit)
+  (Supprimer un produit)
+
+  Vendeur --> (Créer une boutique)
+  Vendeur --> (Modifier sa boutique)
+  Vendeur --> (Supprimer sa boutique)
+  Vendeur --> (Ajouter un produit)
+  Vendeur --> (Modifier un produit)
+  Vendeur --> (Supprimer un produit)
+}
+
+' ----- Fonctions d'administration -----
+  (Supprimer une boutique)
+  (Modérer ou supprimer un avis)
+
+  Admin --> (Supprimer une boutique)
+  Admin --> (Modérer ou supprimer un avis)
+
+
+' ----- Relations UML spéciales -----
+(Laisser un avis) ..> (Acheter un produit) : <<include>>
+(Modifier un avis) ..> (Laisser un avis) : <<extend>>
+(Supprimer un avis) ..> (Laisser un avis) : <<extend>>
+
+@enduml

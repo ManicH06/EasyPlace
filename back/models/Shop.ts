@@ -1,7 +1,7 @@
 import { DataTypes, Model, Optional } from "sequelize";
-import sequelize from "../src/db/db"
-import User from "./User"; // ✅ Import User properly
-import Product from "./Product"; // ✅ Import Product properly
+import sequelize from "../src/db/db";
+import User from "./User";
+import Product from "./Product";
 
 interface ShopAttributes {
   id: number;
@@ -23,7 +23,10 @@ interface ShopAttributes {
 interface ShopCreationAttributes
   extends Optional<ShopAttributes, "id" | "describe" | "category" | "type"> {}
 
-class Shop extends Model<ShopAttributes, ShopCreationAttributes> implements ShopAttributes {
+class Shop
+  extends Model<ShopAttributes, ShopCreationAttributes>
+  implements ShopAttributes
+{
   public id!: number;
   public siret!: number;
   public companyName!: string;
@@ -42,20 +45,60 @@ class Shop extends Model<ShopAttributes, ShopCreationAttributes> implements Shop
 
 Shop.init(
   {
-    id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
-    siret: { type: DataTypes.STRING, unique: true },
-    companyName: { type: DataTypes.STRING, allowNull: false },
-    phone: { type: DataTypes.STRING, allowNull: false },
-    email: { type: DataTypes.STRING, unique: true },
-    street: { type: DataTypes.STRING, allowNull: false },
-    postalCode: { type: DataTypes.STRING, allowNull: false },
-    city: { type: DataTypes.STRING, allowNull: false },
-    departement: { type: DataTypes.STRING, allowNull: false },
-    image_url: { type: DataTypes.STRING, allowNull: true },
-    describe: { type: DataTypes.TEXT },
-    category: { type: DataTypes.STRING },
-    type: { type: DataTypes.STRING },
-    userId: { type: DataTypes.INTEGER, allowNull: false },
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+    },
+    siret: {
+      type: DataTypes.STRING,
+      unique: true,
+    },
+    companyName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    phone: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    email: {
+      type: DataTypes.STRING,
+      unique: true,
+    },
+    street: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    postalCode: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    city: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    departement: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    image_url: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    describe: {
+      type: DataTypes.TEXT,
+    },
+    category: {
+      type: DataTypes.STRING,
+    },
+    type: {
+      type: DataTypes.STRING,
+    },
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
   },
   {
     sequelize,
@@ -63,13 +106,11 @@ Shop.init(
   }
 );
 
+// Relations
+Shop.belongsTo(User, { foreignKey: "userId", as: "user" });
+User.hasMany(Shop, { foreignKey: "userId", as: "shops" });
 
-  Shop.belongsTo(User, { foreignKey: "userId", as: "user" });
-  User.hasMany(Shop, { foreignKey: "userId", as: "shops" });
+Shop.hasMany(Product, { foreignKey: "shopId", as: "products" });
+Product.belongsTo(Shop, { foreignKey: "shopId", as: "shop" });
 
-  Shop.hasMany(Product, { foreignKey: "shopId", as: "products" });
-  Product.belongsTo(Shop, { foreignKey: "shopId", as: "shop" });
-
-
-// ✅ Export both Shop model and the function to initialize associations
 export default Shop;
