@@ -14,6 +14,7 @@ import {
   checkValidationResult 
 } from "../../validators/user.validator";
 import { loginUserValidator } from "../../validators/login.userValidator";
+import { authToken } from "../../middlewares/authToken";
 
 const router = Router();
 
@@ -28,10 +29,10 @@ router.post(
 router.post("/login", loginUserValidator, login);
  
 // Route pour récupérer tous les utilisateurs
-router.get("/", getUsers);
+router.get("/", authToken, getUsers);
 
 // Route pour récupérer un utilisateur par son ID
-router.get("/:id", getUser);
+router.get("/:id", authToken, getUser);
 
 // Route pour mettre à jour un utilisateur par son ID
 router.put(

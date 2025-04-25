@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "@radix-ui/react-slider": "^1.2.2"
+    "@radix-ui/react-slider": "^1.2.2",
+    "@types/express": "^5.0.1"
   }
 }

@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Router, Request, Response } from "express";
 import shopUploader from "../../middlewares/shopUploader";
 import withTryCatch from "../../decorators/MWErrorDecorator";
 import {
@@ -12,7 +12,7 @@ import { authToken } from "../../middlewares/authToken";
 const router = Router();
 
 // Route pour uploader des fichiers
-router.post("/upload", withTryCatch(shopUploader), (req, res) => {
+router.post("/upload", withTryCatch(shopUploader), (req: Request, res: Response) => {
   res.send(`Fichiers envoyés avec succès !, le texte est : ${req.body.text}`);
 });
 
