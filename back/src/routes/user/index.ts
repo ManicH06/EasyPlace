@@ -29,10 +29,10 @@ router.post(
 router.post("/login", loginUserValidator, login);
  
 // Route pour récupérer tous les utilisateurs
-router.get("/", authToken, getUsers);
+router.get("/", getUsers);
 
 // Route pour récupérer un utilisateur par son ID
-router.get("/:id", authToken, getUser);
+router.get("/:id", getUser);
 
 // Route pour mettre à jour un utilisateur par son ID
 router.put(

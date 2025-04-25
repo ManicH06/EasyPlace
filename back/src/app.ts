@@ -7,6 +7,7 @@ import HTTPError from "./errors/HTTPError";
 import sequelize from "./db/db";
 import { connectToDB } from "./db/db";
 import { Request, Response } from "express";
+import { authToken } from "./middlewares/authToken";
 
 const router = Router();
 
@@ -16,9 +17,9 @@ router.get("/", (req, res) => {
 });
 
 // Ajouter les routes 
-router.use("/shops", shopRouter);
-router.use("/users", userRouter);
-router.use("/products", productRouter);
+router.use("/shops",authToken, shopRouter);
+router.use("/users", authToken, userRouter);
+router.use("/products", authToken, productRouter);
 
 router.get("/auth/status", (req: Request, res: Response) => {
   req.cookies.authToken
