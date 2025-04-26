@@ -50,7 +50,7 @@ export default function ProductSlider({ title }: ProductSliderProps) {
     const getPromotedProducts = async () => {
       try {
         const products = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/products/`
+          `${process.env.NEXT_PUBLIC_API_URL}/products`
         );
         setPromotedProducts(products.data);
       } catch (error) {

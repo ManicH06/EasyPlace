@@ -20,7 +20,7 @@ router.get("/", (req: Request, res: Response) => {
 // Ajouter les routes
 router.use("/shops", checkOrigin, shopRouter);
 router.use("/users", checkOrigin, authToken, userRouter);
-router.use("/products", checkOrigin, authToken, productRouter);
+router.use("/products", checkOrigin, productRouter);
 
 router.get("/auth/status", (req: Request, res: Response) => {
   req.cookies.authToken

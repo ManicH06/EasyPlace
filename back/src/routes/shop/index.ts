@@ -7,7 +7,6 @@ import {
   createShop,
   getRandomShops,
 } from "../../controllers/shopController";
-import { authToken } from "../../middlewares/authToken";
 
 const router = Router();
 
