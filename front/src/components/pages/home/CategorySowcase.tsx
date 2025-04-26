@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { Apple, Cpu, Hammer, HeartHandshake } from "lucide-react";
 
