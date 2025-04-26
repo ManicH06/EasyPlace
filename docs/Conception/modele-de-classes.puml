@@ -1,0 +1,102 @@
+@startuml
+
+class Utilisateur {
+  - id_utilisateur: int
+  - nom: string
+  - email: string
+  - mot_de_passe: string
+  - id_role: int
+}
+
+class Role {
+  - id_role: int
+  - nom: string
+}
+
+class Boutique {
+  - id_boutique: int
+  - siret: string
+  - nom_entreprise: string
+  - telephone: string
+  - email: string
+  - rue: string
+  - code_postal: string
+  - ville: string
+  - pays: string
+  - image: string
+  - id_utilisateur: int
+}
+
+class Produit {
+  - id_produit: int
+  - nom: string
+  - description: string
+  - prix: float
+  - stock: int
+  - categorie: string
+  - image: string
+  - id_utilisateur: int
+  - id_boutique: int
+}
+
+class Commande {
+  - id_commande: int
+  - date_commande: Date
+  - statut: string
+  - id_utilisateur: int
+}
+
+class LigneCommande {
+  - id_commande: int
+  - id_produit: int
+  - quantite: int
+}
+
+class Message {
+  - id_message: int
+  - contenu: string
+  - date_envoi: Date
+  - id_commande: int
+  - id_utilisateur: int
+}
+
+class Avis {
+  - id_avis: int
+  - texte: string
+  - etoiles: int
+  - date_avis: Date
+  - id_utilisateur: int
+  - id_produit: int
+}
+
+class ReponseAvis {
+  - id_reponse: int
+  - contenu: string
+  - id_avis: int
+  - id_utilisateur: int
+}
+
+class Media {
+  - id_media: int
+  - url: string
+  - type: string
+  - id_produit: int
+  - id_boutique: int
+}
+
+Utilisateur "1" --> "0..*" Boutique : gère >
+Utilisateur "1" --> "0..*" Produit : publie >
+Utilisateur "1" --> "0..*" Commande : passe >
+Utilisateur "1" --> "0..*" Avis : laisse >
+Utilisateur "1" --> "0..*" Message : envoie >
+Utilisateur "1" --> "1" Role : a >
+Boutique "1" --> "0..*" Produit : vend >
+Boutique "1" --> "0..*" Media : contient >
+Produit "1" --> "0..*" Media : contient >
+Produit "1" --> "0..*" LigneCommande : apparait-dans >
+Produit "1" --> "0..*" Avis : reçoit >
+Avis "1" --> "0..1" ReponseAvis : a pour réponse >
+Commande "1" --> "1..*" LigneCommande : comprend >
+Commande "0..1" --> "1" Message : lié-à >
+
+@enduml

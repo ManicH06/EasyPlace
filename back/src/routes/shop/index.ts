@@ -16,7 +16,7 @@ router.post("/upload", withTryCatch(shopUploader), (req: Request, res: Response)
   res.send(`Fichiers envoyés avec succès !, le texte est : ${req.body.text}`);
 });
 
-router.post("/register", authToken, withTryCatch(createShop));
+router.post("/register", withTryCatch(createShop));
 
 // Route pour récupérer tous les shops
 router.get("/", withTryCatch(getAllShops)); 

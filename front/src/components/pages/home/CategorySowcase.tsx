@@ -3,10 +3,10 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Apple, Cpu, Hammer, HeartHandshake } from 'lucide-react'
 
 const categories = [
-  { name: 'Alimentation', icon: Apple, href: 'boutiques/category/alimentation' },
-  { name: 'Électronique', icon: Cpu, href: 'boutiques/category/electronique' },
-  { name: 'Artisanat', icon: Hammer, href: 'boutiques/category/artisanat' },
-  { name: 'Services', icon: HeartHandshake, href: 'boutiques/category/services' },
+  { name: 'Alimentation', icon: Apple},
+  { name: 'Électronique', icon: Cpu},
+  { name: 'Artisanat', icon: Hammer},
+  { name: 'Services', icon: HeartHandshake},
 ]
 
 export default function CategoryShowcase() {

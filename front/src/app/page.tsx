@@ -28,7 +28,7 @@ export default function Home() {
         console.error(error);
       }
     };
-    const getPromotedBoutiaues = async () => {
+    const getPromotedBoutiques = async () => {
       try {
         const response = await axios.get(`${API_URL}/shops/promoteshops`);
         setBoutiques(response.data);
@@ -36,7 +36,7 @@ export default function Home() {
         console.error(error);
       }
     };
-    getPromotedBoutiaues();
+    getPromotedBoutiques();
     getPromotedProducts();
   }, []);
   return (

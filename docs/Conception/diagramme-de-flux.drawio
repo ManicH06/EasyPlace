@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="USlKovws1qHvV0Q2TyDv" name="Page-1">
-        <mxGraphModel dx="2173" dy="1888" grid="1" gridSize="10" guides="1" tooltips="1" connect="0" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" background="#1A1A1A" math="0" shadow="0">
+        <mxGraphModel dx="2377" dy="1790" grid="1" gridSize="10" guides="1" tooltips="1" connect="0" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" background="#FFFFFF" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -16,7 +16,7 @@
                 <mxCell id="54" value="filtré les produits" style="text;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;whiteSpace=wrap;html=1;" parent="52" vertex="1">
                     <mxGeometry y="56" width="160" height="44" as="geometry"/>
                 </mxCell>
-                <mxCell id="55" value="détail d'un produit" style="text;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;whiteSpace=wrap;html=1;" parent="52" vertex="1">
+                <mxCell id="55" value="détail d&#39;un produit" style="text;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;whiteSpace=wrap;html=1;" parent="52" vertex="1">
                     <mxGeometry y="100" width="160" height="30" as="geometry"/>
                 </mxCell>
                 <mxCell id="56" value="" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" edge="1">
@@ -296,10 +296,10 @@
                 <mxCell id="122" value="modifie les produits" style="text;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;whiteSpace=wrap;html=1;" parent="120" vertex="1">
                     <mxGeometry y="56" width="160" height="44" as="geometry"/>
                 </mxCell>
-                <mxCell id="123" value="supprime 'un produit" style="text;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;whiteSpace=wrap;html=1;" parent="120" vertex="1">
+                <mxCell id="123" value="supprime &#39;un produit" style="text;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;whiteSpace=wrap;html=1;" parent="120" vertex="1">
                     <mxGeometry y="100" width="160" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="124" value="edit&amp;nbsp; 'un produit" style="text;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;whiteSpace=wrap;html=1;" parent="120" vertex="1">
+                <mxCell id="124" value="edit&amp;nbsp; &#39;un produit" style="text;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;whiteSpace=wrap;html=1;" parent="120" vertex="1">
                     <mxGeometry y="130" width="160" height="30" as="geometry"/>
                 </mxCell>
                 <mxCell id="125" value="" style="endArrow=classic;html=1;rounded=0;" parent="1" edge="1">

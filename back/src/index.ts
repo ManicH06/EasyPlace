@@ -6,7 +6,6 @@ import path from "path";
 import cookieParser from "cookie-parser"; // pour lire les cookies dans les requêtes
 
 dotenv.config({ path: path.resolve(process.cwd(), "../.env") });
-console.log(process.cwd());
 const app = express();
 const PORT = process.env.BACK_PORT || 5000;
 
