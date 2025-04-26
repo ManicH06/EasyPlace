@@ -60,9 +60,9 @@ function FooterSection({ section }: { section: FooterSection }) {
       {isOpen && (
         <ul className="pb-4 space-y-2">
           {section.links.map((link) => (
-            <li key={link.href}>
+            <li key={link.label}>
               <Link
-                href={link.href}
+                href={link.href || "#"}
                 className="block py-2 px-4 hover:bg-slate-600 rounded transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-700 focus:ring-white"
               >
                 {link.label}
@@ -98,9 +98,9 @@ export default function Footer() {
               <h3 className="text-lg font-semibold mb-4">{section.title}</h3>
               <ul className="space-y-2">
                 {section.links.map((link) => (
-                  <li key={link.href}>
+                  <li key={link.label}>
                     <Link
-                      href={link.href}
+                      href={link.href || "#"}
                       className="hover:underline focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-700 focus:ring-white rounded"
                     >
                       {link.label}
