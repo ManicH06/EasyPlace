@@ -8,7 +8,8 @@ import ProductSlider from "@/components/pages/home/ProductSlider";
 
 export default async function Home() {
   const API_URL = process.env.API_URL;
-
+  console.log("API_URL:", process.env.API_URL);
+  console.log("API_KEY:", process.env.API_KEY);
   if (!API_URL || !process.env.API_KEY) {
     console.error("API_URL or API_KEY is missing. Please check your environment variables.");
     return <div>Error: Missing environment variables</div>;  
