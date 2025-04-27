@@ -11,8 +11,10 @@ export default async function Home() {
   console.log("API_URL:", process.env.API_URL);
   console.log("API_KEY:", process.env.API_KEY);
   if (!API_URL || !process.env.API_KEY) {
-    console.error("API_URL or API_KEY is missing. Please check your environment variables.");
-    return <div>Error: Missing environment variables</div>;  
+    console.error(
+      "API_URL or API_KEY is missing. Please check your environment variables."
+    );
+    return <div>Error: Missing environment variables</div>;
   }
 
   try {
@@ -29,10 +31,18 @@ export default async function Home() {
       }),
     ]);
 
+    console.log("Boutiques Response Status:", boutiquesRes.status);
+    console.log("Products Response Status:", productsRes.status);
+
     if (!boutiquesRes.ok) {
+      const text = await boutiquesRes.text(); // Get the response body as text
+      console.error("Boutiques response error:", text);
       throw new Error(`Failed to fetch boutiques: ${boutiquesRes.statusText}`);
     }
+
     if (!productsRes.ok) {
+      const text = await productsRes.text();
+      console.error("Products response error:", text);
       throw new Error(`Failed to fetch products: ${productsRes.statusText}`);
     }
 
