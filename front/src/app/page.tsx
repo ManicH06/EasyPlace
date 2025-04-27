@@ -9,45 +9,61 @@ import ProductSlider from "@/components/pages/home/ProductSlider";
 export default async function Home() {
   const API_URL = process.env.API_URL;
 
-  const [boutiquesRes, productsRes] = await Promise.all([
-    fetch(`${API_URL}/shops/promotedshops`, {
-      headers: {
-        "x-api-key": process.env.API_KEY,
-      } as HeadersInit
-    }),
-    fetch(`${API_URL}/products`, {
-      headers: {
-        "x-api-key": process.env.API_KEY,
-      } as HeadersInit
-    }),
-  ]);
+  if (!API_URL || !process.env.API_KEY) {
+    console.error("API_URL or API_KEY is missing. Please check your environment variables.");
+    return <div>Error: Missing environment variables</div>;  
+  }
 
-  // Parse responses
-  const boutiques: Boutique[] = await boutiquesRes.json();
-  const products: Product[] = await productsRes.json();
+  try {
+    const [boutiquesRes, productsRes] = await Promise.all([
+      fetch(`${API_URL}/shops/promotedshops`, {
+        headers: {
+          "x-api-key": process.env.API_KEY!,
+        },
+      }),
+      fetch(`${API_URL}/products`, {
+        headers: {
+          "x-api-key": process.env.API_KEY!,
+        },
+      }),
+    ]);
 
-  return (
-    <div>
-      <header className="text-center py-8 transition-transform duration-300">
-        <HeroSection />
-      </header>
-      <main className="text-center my-5">
-        <FilterForm />
-        <div className="bg-white">
-          <section className="container mx-auto px-4 pt-32 pb-6">
-            <h1 className="text-2xl font-bold text-center mb-8">
-              Trouvez la boutique qui vous correspond !
-            </h1>
-            <CardShopSection boutiques={boutiques} />
-            <CategoryShowcase />
-            <ProductSlider
-              products={products}
-              title="Quelques produits populaires"
-            />
-          </section>
-        </div>
-        <PresentationSection />
-      </main>
-    </div>
-  );
+    if (!boutiquesRes.ok) {
+      throw new Error(`Failed to fetch boutiques: ${boutiquesRes.statusText}`);
+    }
+    if (!productsRes.ok) {
+      throw new Error(`Failed to fetch products: ${productsRes.statusText}`);
+    }
+
+    const boutiques: Boutique[] = await boutiquesRes.json();
+    const products: Product[] = await productsRes.json();
+
+    return (
+      <div>
+        <header className="text-center py-8 transition-transform duration-300">
+          <HeroSection />
+        </header>
+        <main className="text-center my-5">
+          <FilterForm />
+          <div className="bg-white">
+            <section className="container mx-auto px-4 pt-32 pb-6">
+              <h1 className="text-2xl font-bold text-center mb-8">
+                Trouvez la boutique qui vous correspond !
+              </h1>
+              <CardShopSection boutiques={boutiques} />
+              <CategoryShowcase />
+              <ProductSlider
+                products={products}
+                title="Quelques produits populaires"
+              />
+            </section>
+          </div>
+          <PresentationSection />
+        </main>
+      </div>
+    );
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    return <div>Error: Could not fetch data. Please try again later.</div>;
+  }
 }
