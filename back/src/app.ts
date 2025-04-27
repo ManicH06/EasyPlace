@@ -16,7 +16,6 @@ router.get("/", (req: Request, res: Response) => {
   res.send("Hello, bienvenue sur l’API !");
 });
 
-// Ajouter les routes
 router.use("/shops", shopRouter);
 router.use("/users", userRouter);
 router.use("/products", productRouter);
@@ -34,16 +33,14 @@ router.use((_, __, next) => {
 // Middleware de gestion des erreurs
 router.use(errorHandler);
 
-// Connecter à la base de données et synchroniser
 (async () => {
   try {
     await connectToDB();
     await sequelize.sync({ alter: true });
-    /*     console.log("Les modèles ont été synchronisés avec la base de données.");
-     */
+    console.log("Les modèles ont été synchronisés avec la base de données.");
   } catch (error) {
-    /*     console.error("Erreur lors de la connexion à la base de données :", error);
-     */ process.exit(1);
+    console.error("Erreur lors de la connexion à la base de données :", error);
+    process.exit(1);
   }
 })();
 export default router;
