@@ -7,7 +7,12 @@ export const checkOrigin = (
 ) => {
   const allowedOrigin = process.env.FRONT_URL as string;
   const origin = req.headers.origin;
-  if (!origin || !origin.startsWith(allowedOrigin)) {
+
+  if (!origin) {
+    next();
+  } 
+
+  if (origin && !origin.startsWith(allowedOrigin)) {
      res.status(403).json({ message: "Forbidden" });
     return;
   }

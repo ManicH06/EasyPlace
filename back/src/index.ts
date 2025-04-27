@@ -15,12 +15,12 @@ app.use(cookieParser());
 // Ajouter les middlewares globaux
 app.use(
   cors({
-    origin: process.env.FRONT_URL || process.env.FRONT_URL_VERCEL,
+    origin: process.env.FRONT_URL,
     credentials: true,
   })
 );
 app.use(checkOrigin);
-
+app.use(apiKeyAuth);
 app.use(express.json());
 app.use(router);
 // Démarrer le serveur
