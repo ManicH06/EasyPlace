@@ -4,7 +4,7 @@ import PresentationSection from "@/components/pages/home/PresentationSection";
 import FilterForm from "@/components/pages/home/FilterForm";
 import HeroSection from "@/components/pages/home/HeroSection";
 import CategoryShowcase from "@/components/pages/home/CategorySowcase";
-import ProductSlider from "@/components/pages/home/ProductSlider";
+import ProductSliderServer from "@/components/pages/home/ProductSliderServer";
 
 export default async function Home() {
   const API_URL = process.env.API_URL;
@@ -50,7 +50,7 @@ export default async function Home() {
               </h1>
               <CardShopSection boutiques={boutiques} />
               <CategoryShowcase />
-              <ProductSlider title="Quelques produits populaires" />
+              <ProductSliderServer title="Quelques produits populaires" />
             </section>
           </div>
           <PresentationSection />
