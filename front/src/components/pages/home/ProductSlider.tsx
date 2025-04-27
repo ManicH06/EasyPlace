@@ -8,7 +8,6 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 interface ProductSliderProps {
-  products: Product[];
   title: string;
 }
 
@@ -37,6 +36,7 @@ const NextArrow = ({ onClick }: CustomArrowProps) => {
   );
 };
 
+// ProductSlider is now a Server Component fetching data
 export default async function ProductSlider({ title }: ProductSliderProps) {
   const API_URL = process.env.API_URL;
   const API_KEY = process.env.API_KEY;
@@ -49,10 +49,12 @@ export default async function ProductSlider({ title }: ProductSliderProps) {
   }
 
   try {
+    // Fetching data on the server side
     const response = await fetch(`${API_URL}/products`, {
       headers: {
         "x-api-key": API_KEY,
       },
+      cache: "no-store", // Disables caching to always fetch fresh data (important for SSR)
     });
 
     if (!response.ok) {
