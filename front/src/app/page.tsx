@@ -1,4 +1,4 @@
-import { Boutique, Product } from "@/@types/types";
+import { Boutique } from "@/@types/types";
 import CardShopSection from "@/components/pages/home/CardShopSection";
 import PresentationSection from "@/components/pages/home/PresentationSection";
 import FilterForm from "@/components/pages/home/FilterForm";
@@ -18,13 +18,8 @@ export default async function Home() {
   }
 
   try {
-    const [boutiquesRes, productsRes] = await Promise.all([
+    const [boutiquesRes] = await Promise.all([
       fetch(`${API_URL}/shops/promotedshops`, {
-        headers: {
-          "x-api-key": process.env.API_KEY!,
-        },
-      }),
-      fetch(`${API_URL}/products`, {
         headers: {
           "x-api-key": process.env.API_KEY!,
         },
@@ -32,7 +27,6 @@ export default async function Home() {
     ]);
 
     console.log("Boutiques Response Status:", boutiquesRes.status);
-    console.log("Products Response Status:", productsRes.status);
 
     if (!boutiquesRes.ok) {
       const text = await boutiquesRes.text(); // Get the response body as text
@@ -40,14 +34,7 @@ export default async function Home() {
       throw new Error(`Failed to fetch boutiques: ${boutiquesRes.statusText}`);
     }
 
-    if (!productsRes.ok) {
-      const text = await productsRes.text();
-      console.error("Products response error:", text);
-      throw new Error(`Failed to fetch products: ${productsRes.statusText}`);
-    }
-
     const boutiques: Boutique[] = await boutiquesRes.json();
-    const products: Product[] = await productsRes.json();
 
     return (
       <div>
@@ -63,10 +50,7 @@ export default async function Home() {
               </h1>
               <CardShopSection boutiques={boutiques} />
               <CategoryShowcase />
-              <ProductSlider
-                products={products}
-                title="Quelques produits populaires"
-              />
+              <ProductSlider title="Quelques produits populaires" />
             </section>
           </div>
           <PresentationSection />
