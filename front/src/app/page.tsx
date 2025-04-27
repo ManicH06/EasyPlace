@@ -9,9 +9,8 @@ import CategoryShowcase from "@/components/pages/home/CategorySowcase";
 import ProductSlider from "@/components/pages/home/ProductSlider";
 
 export default async function Home() {
-
   const [boutiquesRes, productsRes] = await Promise.all([
-    fetch(`/api/shops/promoteshops`),
+    fetch(`/api/shops/promotedshops`),
     fetch(`/api/products`),
   ]);
 
