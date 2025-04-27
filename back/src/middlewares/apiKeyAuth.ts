@@ -7,7 +7,5 @@ export const apiKeyAuth = (req: Request, res: Response, next: NextFunction) => {
     res.status(401).json({ error: "Unauthorized: Invalid API key" });
     return;
   }
-  console.log("Expected API key:", process.env.API_KEY);
-  console.log("Received API key:", apiKey);
   next();
 };

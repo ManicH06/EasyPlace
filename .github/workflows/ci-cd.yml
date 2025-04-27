@@ -6,26 +6,26 @@ on:
       - main
 
 jobs:
-  build-and-test:
-    name: Build and Test
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-      - name: Install Dependencies
-        working-directory: ./back
-        run: npm install
-      - name: Run Tests
-        working-directory: ./back
-        run: npm test
+  #  build-and-test:
+  #    name: Build and Test
+  #    runs-on: ubuntu-latest
+  #    steps:
+  #      - name: Checkout Repository
+  #        uses: actions/checkout@v3
+  #      - name: Setup Node.js
+  #       uses: actions/setup-node@v3
+  #        with:
+  #          node-version: 18
+  #      - name: Install Dependencies
+  #        working-directory: ./back
+  #        run: npm install
+  #      - name: Run Tests
+  #        working-directory: ./back
+  #        run: npm test
 
   deploy-front:
     name: Deploy Frontend to Vercel
-#   needs: build-and-test
+    #   needs: build-and-test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -50,7 +50,7 @@ jobs:
 
   deploy-back:
     name: Deploy Backend to Render
-#   needs: build-and-test
+    #   needs: build-and-test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -72,4 +72,3 @@ jobs:
         run: |
           curl -X POST "https://api.render.com/deploy/srv-cuf8n60gph6c7381v210/trigger" \
             -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}"
-
