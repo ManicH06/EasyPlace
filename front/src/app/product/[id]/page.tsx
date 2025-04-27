@@ -1,52 +1,41 @@
-"use client";
-
-import ProductDetails from "../../../components/pages/product/ProductDetails";
-import SellerInfo from "../../../components/pages/product/SellerInfo";
 import { Product } from "@/@types/types";
-import { useEffect, useState } from "react";
-import axios from "axios";
+import ProductClientPage from "@/components/pages/product/ProductClientPage";
 
-export default function ProductPage({ params }: { params: { id: string } }) {
-  const [product, setProduct] = useState<Product | null>(null);
+async function getProduct(id: string): Promise<Product | null> {
+  try {
+    const response = await fetch(`${process.env.API_URL}/products/${id}`, {
+      headers: {
+        "x-api-key": process.env.API_KEY,
+      } as HeadersInit,
+      cache: "no-store", // Adjust caching as needed
+    });
+
+    if (!response.ok) {
+      console.error(
+        `Failed to fetch product with ID ${id}: ${response.status} ${response.statusText}`
+      );
+      return null;
+    }
+
+    const data: Product = await response.json();
+    return data;
+  } catch (error) {
+    console.error(`Error fetching product with ID ${id}:`, error);
+    return null;
+  }
+}
+
+export default async function ProductPage({
+  params,
+}: {
+  params: { id: string };
+}) {
   const { id } = params;
-  console.log(id);
-  useEffect(() => {
-    const getProduct = async () => {
-      try {
-        const response = await axios.get(
-          `/api/products/${id}`
-        );
-        setProduct(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-      if (!product) {
-        return <div>Produit non trouvé</div>;
-      }
-    };
-    getProduct();
-  }, [id, product]);
-  return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="grid md:grid-cols-3 gap-8">
-        <div className="md:col-span-2">
-          {product && <ProductDetails product={product} />}
-        </div>
-        <div>
-          {product && product.shop && (
-            <SellerInfo
-              seller={{
-                name: product.shop.companyName,
-                address: product.shop.city,
-                deliveryOptions: ["Livraison gratuite"],
-              }}
-            />
-          )}
-        </div>
-      </div>
-      {/*       <div className="mt-12">
-        {product && <SuggestedProducts {...[product]} />}
-      </div> */}
-    </div>
-  );
+  const product = await getProduct(id);
+
+  if (!product) {
+    return <div>Produit non trouvé</div>;
+  }
+
+  return <ProductClientPage product={product} />;
 }
