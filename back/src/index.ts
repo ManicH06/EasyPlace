@@ -4,7 +4,6 @@ import router from "./app";
 import cors from "cors"; // Import du module cors pour
 import path from "path";
 import cookieParser from "cookie-parser"; // pour lire les cookies dans les requêtes
-import { checkOrigin } from "./middlewares/checkOrigin";
 
 dotenv.config({ path: path.resolve(process.cwd(), "../.env") });
 const app = express();
@@ -14,11 +13,16 @@ app.use(cookieParser());
 // Ajouter les middlewares globaux
 app.use(
   cors({
-    origin: process.env.FRONT_URL,
+    origin: (origin, callback) => {
+      if (!origin || origin.startsWith(process.env.FRONT_URL as string)) {
+        callback(null, origin);
+      } else {
+        callback(new Error("CORS policy error"));
+      }
+    },
     credentials: true,
   })
 );
-app.use(checkOrigin)
 
 app.use(express.json());
 app.use(router);

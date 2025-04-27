@@ -8,7 +8,6 @@ import sequelize from "./db/db";
 import { connectToDB } from "./db/db";
 import { Request, Response } from "express";
 import { authToken } from "./middlewares/authToken";
-import { checkOrigin } from "./middlewares/checkOrigin";
 
 const router = Router();
 
@@ -19,8 +18,8 @@ router.get("/", (req: Request, res: Response) => {
 
 // Ajouter les routes
 router.use("/shops", shopRouter);
-router.use("/users", checkOrigin, userRouter);
-router.use("/products", checkOrigin, productRouter);
+router.use("/users", userRouter);
+router.use("/products", productRouter);
 
 router.get("/auth/status", (req: Request, res: Response) => {
   req.cookies.authToken
