@@ -22,7 +22,7 @@ export default function Home() {
   useEffect(() => {
     const getPromotedProducts = async () => {
       try {
-        const response = await axios.get(`/api/products`);
+        const response = await axios.get(`/api/products/`);
         setProducts(response.data);
       } catch (error) {
         console.error(error);
