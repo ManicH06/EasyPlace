@@ -19,9 +19,7 @@ app.use(
     credentials: true,
   })
 );
-/* app.use(checkOrigin)
- */
-app.use(apiKeyAuth);
+app.use(checkOrigin);
 
 app.use(express.json());
 app.use(router);

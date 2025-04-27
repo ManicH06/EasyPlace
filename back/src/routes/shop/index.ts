@@ -19,7 +19,7 @@ router.post("/register", withTryCatch(createShop));
 
 // Route pour récupérer tous les shops
 router.get("/", withTryCatch(getAllShops)); 
-router.get("/promoteshops", withTryCatch(getRandomShops));
+router.get("/promotedshops", withTryCatch(getRandomShops));
 router.get("/:id", getShop);
 
 export default router;

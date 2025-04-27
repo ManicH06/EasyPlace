@@ -1,5 +1,3 @@
-// app/page.tsx
-
 import { Boutique, Product } from "@/@types/types";
 import CardShopSection from "@/components/pages/home/CardShopSection";
 import PresentationSection from "@/components/pages/home/PresentationSection";
@@ -9,9 +7,11 @@ import CategoryShowcase from "@/components/pages/home/CategorySowcase";
 import ProductSlider from "@/components/pages/home/ProductSlider";
 
 export default async function Home() {
+  const API_URL = process.env.API_URL;
+
   const [boutiquesRes, productsRes] = await Promise.all([
-    fetch(`/api/shops/promotedshops`),
-    fetch(`/api/products`),
+    fetch(`${API_URL}/shops/promotedshops`),
+    fetch(`${API_URL}/products`),
   ]);
 
   // Parse responses
