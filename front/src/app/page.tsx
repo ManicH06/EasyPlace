@@ -9,8 +9,8 @@ import CategoryShowcase from "@/components/pages/home/CategorySowcase";
 import axios from "axios";
 import { useState, useEffect } from "react";
 
-// Define NEXT_PUBLIC_API_URL
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+// Define API_URL
+const API_URL = process.env.API_URL;
 import { Boutique } from "@/@types/types";
 
 // Import data
@@ -22,7 +22,7 @@ export default function Home() {
   useEffect(() => {
     const getPromotedProducts = async () => {
       try {
-        const response = await axios.get(`${API_URL}/products`);
+        const response = await axios.get(`/api/products`);
         setProducts(response.data);
       } catch (error) {
         console.error(error);
