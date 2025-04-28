@@ -4,8 +4,8 @@ import router from "./app";
 import cors from "cors"; // Import du module cors pour
 import path from "path";
 import cookieParser from "cookie-parser"; // pour lire les cookies dans les requêtes
-import { checkOrigin } from "./middlewares/checkOrigin";
 import { apiKeyAuth } from "./middlewares/apiKeyAuth";
+import { checkOrigin } from "./middlewares/checkOrigin";
 
 dotenv.config({ path: path.resolve(process.cwd(), "../.env") });
 const app = express();
@@ -19,7 +19,8 @@ app.use(
     credentials: true,
   })
 );
-/* app.use(checkOrigin); */
+app.use(apiKeyAuth); // Middleware d'authentification par clé API
+app.use(checkOrigin);
 app.use(express.json());
 app.use(router);
 // Démarrer le serveur
