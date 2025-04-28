@@ -19,8 +19,8 @@ app.use(
     credentials: true,
   })
 );
-app.use(checkOrigin);
-app.use(express.json());
+/* app.use(checkOrigin);
+ */app.use(express.json());
 app.use(router);
 // Démarrer le serveur
 if (process.env.NODE_ENV !== "test") {
