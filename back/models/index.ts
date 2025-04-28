@@ -56,7 +56,7 @@ fs.readdirSync(modelsPath)
     }
   });
 
-associate();
+associate(models);
 
 /* // Configurer les associations des modèles, si nécessaire
 Object.keys(models).forEach((modelName) => {
