@@ -3,6 +3,7 @@ import fs from "fs";
 import path from "path";
 import sequelize from "../src/db/db"; // Vérifiez bien le chemin
 import { DataTypes, Model } from "sequelize";
+import associate from "./associations";
 
 const models: Record<string, any> = {};
 const modelsPath = path.resolve(__dirname, "./");
@@ -13,7 +14,8 @@ fs.readdirSync(modelsPath)
       file.indexOf(".") !== 0 &&
       (file.slice(-3) === ".js" || file.slice(-3) === ".ts") &&
       file.indexOf(".test.js") === -1 &&
-      file !== "index.ts"
+      file !== "index.ts" &&
+      file !== "associations.ts" // Exclure le fichier d'associations
     );
   })
   .forEach((file) => {
@@ -53,6 +55,8 @@ fs.readdirSync(modelsPath)
       models[model.name] = model;
     }
   });
+
+associate();
 
 // Configurer les associations des modèles, si nécessaire
 Object.keys(models).forEach((modelName) => {

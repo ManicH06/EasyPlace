@@ -46,10 +46,5 @@ Order.init(
   }
 );
 
-const importedUser = require("./User.js");
-const User = importedUser.default || importedUser;
-// Relations
-Order.belongsTo(User, { foreignKey: "userId", as: "user" });
-User.hasMany(Order, { foreignKey: "userId", as: "orders" });
 
 export default Order;

@@ -1,7 +1,5 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import sequelize from "../src/db/db";
-import Role from "./Role";
-import Order from "./Order";
 
 interface UserAttributes {
   id: number;
@@ -12,9 +10,13 @@ interface UserAttributes {
   roleId?: number;
 }
 
-interface UserCreationAttributes extends Optional<UserAttributes, "id" | "roleId" | "createdAt"> {}
+interface UserCreationAttributes
+  extends Optional<UserAttributes, "id" | "roleId" | "createdAt"> {}
 
-class User extends Model<UserAttributes, UserCreationAttributes> implements UserAttributes {
+class User
+  extends Model<UserAttributes, UserCreationAttributes>
+  implements UserAttributes
+{
   public id!: number;
   public name!: string;
   public email!: string;
@@ -57,10 +59,4 @@ User.init(
     tableName: "users",
   }
 );
-
-// Relations
-User.belongsTo(Role, { foreignKey: "roleId", as: "role" });
-Role.hasMany(User, { foreignKey: "roleId", as: "users" });
-
-User.hasMany(Order, { foreignKey: "userId", as: "orders" });
 export default User;
