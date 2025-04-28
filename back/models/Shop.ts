@@ -107,9 +107,9 @@ Shop.init(
 );
 
 // Associations
-Shop.belongsTo(User, { foreignKey: "userId", as: "user" });
+/* Shop.belongsTo(User, { foreignKey: "userId", as: "user" });
 User.hasMany(Shop, { foreignKey: "userId", as: "shops" });
 
 Shop.hasMany(Product, { foreignKey: "shopId", as: "products" });
-Product.belongsTo(Shop, { foreignKey: "shopId", as: "shop" });
+Product.belongsTo(Shop, { foreignKey: "shopId", as: "shop" }); */
 export default Shop;

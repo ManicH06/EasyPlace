@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
-import Product from "../../models/Product";
+import models from "../../models";
+const { Product } = models; 
 
 // Récupérer tous les produits
 export const getAllProducts = async (
@@ -9,7 +10,7 @@ export const getAllProducts = async (
   try {
     const products = await Product.findAll({
       include: [
-        /*         { association: "user" }, // Inclut l'utilisateur associé
+        /*  { association: "user" }, // Inclut l'utilisateur associé
          */ { association: "shop" }, // Inclut le shop associé
       ],
     });

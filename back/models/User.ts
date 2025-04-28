@@ -62,7 +62,7 @@ User.init(
 );
 
 // Associations
-User.belongsTo(Role, { foreignKey: "roleId", as: "role" });
+/* User.belongsTo(Role, { foreignKey: "roleId", as: "role" });
 Role.hasMany(User, { foreignKey: "roleId", as: "users" });
-
+ */
 export default User;

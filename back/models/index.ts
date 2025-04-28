@@ -1,64 +1,47 @@
-// src/models/index.ts
-import fs from "fs";
-import path from "path";
-import sequelize from "../src/db/db"; // Vérifiez bien le chemin
-import { DataTypes, Model } from "sequelize";
+import sequelize from "../src/db/db";
+import User from "./User";
+import Role from "./Role";
+import Shop from "./Shop";
+import Product from "./Product";
+import Order from "./Order";
+import OrderLine from "./OrderLine";
 
-const models: Record<string, any> = {};
-const modelsPath = path.resolve(__dirname, "./");
+const setupAssociations = () => {
+  // User-Role
+  User.belongsTo(Role, { foreignKey: "roleId", as: "role" });
+  Role.hasMany(User, { foreignKey: "roleId", as: "users" });
 
-fs.readdirSync(modelsPath)
-  .filter((file) => {
-    return (
-      file.indexOf(".") !== 0 &&
-      (file.slice(-3) === ".js" || file.slice(-3) === ".ts") &&
-      file.indexOf(".test.js") === -1 &&
-      file !== "index.ts"
-    );
-  })
-  .forEach((file) => {
-    const modelModule = require(path.join(modelsPath, file));
-    // Récupérer l'export par défaut si présent
-    const exported = modelModule.default || modelModule;
+  // User-Shop
+  User.hasMany(Shop, { foreignKey: "userId", as: "shops" });
+  Shop.belongsTo(User, { foreignKey: "userId", as: "user" });
 
-    let model;
-    // Si l'export est une fonction d'initialisation (non déjà initialisée)
-    if (
-      typeof exported === "function" &&
-      !(exported.prototype instanceof Model)
-    ) {
-      try {
-        model = exported(sequelize, DataTypes);
-      } catch (err) {
-        console.error(
-          `Erreur lors de l'initialisation du modèle ${file}:`,
-          err
-        );
-      }
-    }
-    // Sinon, si l'export est une classe déjà initialisée (vérifiée par instanceof Model)
-    else if (
-      exported &&
-      typeof exported === "function" &&
-      exported.prototype instanceof Model
-    ) {
-      model = exported;
-    } else {
-      console.error(
-        `Le fichier ${file} n'exporte pas un modèle Sequelize valide.`
-      );
-      return;
-    }
-    if (model && model.name) {
-      models[model.name] = model;
-    }
-  });
+  // Shop-Product
+  Shop.hasMany(Product, { foreignKey: "shopId", as: "products" });
+  Product.belongsTo(Shop, { foreignKey: "shopId", as: "shop" });
 
-// Configurer les associations des modèles, si nécessaire
-Object.keys(models).forEach((modelName) => {
-  if (models[modelName].associate) {
-    models[modelName].associate(models);
-  }
-});
+  // User-Order
+  User.hasMany(Order, { foreignKey: "userId", as: "orders" });
+  Order.belongsTo(User, { foreignKey: "userId", as: "user" });
 
+  // Order-OrderLine
+  Order.hasMany(OrderLine, { foreignKey: "orderId", as: "orderLines" });
+  OrderLine.belongsTo(Order, { foreignKey: "orderId", as: "order" });
+
+  // Product-OrderLine
+  Product.hasMany(OrderLine, { foreignKey: "productId", as: "orderLines" });
+  OrderLine.belongsTo(Product, { foreignKey: "productId", as: "product" });
+};
+
+setupAssociations();
+
+const models = {
+  User,
+  Role,
+  Shop,
+  Product,
+  Order,
+  OrderLine
+};
+
+export { sequelize };
 export default models;

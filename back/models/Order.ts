@@ -48,7 +48,7 @@ Order.init(
 );
 
 // Associations
-Order.belongsTo(User, { foreignKey: "userId", as: "user" });
+/* Order.belongsTo(User, { foreignKey: "userId", as: "user" });
 User.hasMany(Order, { foreignKey: "userId", as: "orders" });
-
+ */
 export default Order;

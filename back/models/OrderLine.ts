@@ -43,7 +43,7 @@ OrderLine.init(
 );
 
 // Associations
-OrderLine.belongsTo(Order, {
+/* OrderLine.belongsTo(Order, {
   foreignKey: "orderId",
   as: "order",
 });
@@ -59,6 +59,6 @@ OrderLine.belongsTo(Product, {
 Product.hasMany(OrderLine, {
   foreignKey: "productId",
   as: "orderLines",
-});
+}); */
 
 export default OrderLine;

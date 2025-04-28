@@ -73,9 +73,9 @@ Product.init(
 );
 
 // Associations
-Product.hasMany(OrderLine, {
+/* Product.hasMany(OrderLine, {
   foreignKey: "productId",
   as: "orderLines",
-});
+}); */
 
 export default Product;

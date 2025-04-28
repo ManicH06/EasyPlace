@@ -5,8 +5,8 @@ import jwt from "jsonwebtoken";
 import { validationResult } from "express-validator";
 
 // Import du modele User
-import User from "../../models/User";
-
+import models from "../../models";
+const { User } = models;
 // Créer un utilisateur
 export const createUser = async (req: Request, res: Response) => {
   try {

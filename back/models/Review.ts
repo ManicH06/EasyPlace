@@ -64,7 +64,7 @@ Review.init(
 );
 
 // Associations
-Review.belongsTo(User, { foreignKey: "userId", as: "user" });
+/* Review.belongsTo(User, { foreignKey: "userId", as: "user" });
   User.hasMany(Review, { foreignKey: "userId", as: "reviews" });
 
   Review.belongsTo(Product, {
@@ -74,6 +74,6 @@ Review.belongsTo(User, { foreignKey: "userId", as: "user" });
   Product.hasMany(Review, {
     foreignKey: "productId",
     as: "reviews",
-  });
+  }); */
 
 export default Review;
