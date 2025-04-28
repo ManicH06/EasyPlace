@@ -20,7 +20,7 @@ router.use("/shops", apiKeyAuth, shopRouter);
 router.use("/users", userRouter);
 router.use("/products", apiKeyAuth, productRouter);
 
-router.get("/auth/status", apiKeyAuth, (req: Request, res: Response) => {
+router.get("/auth/status", (req: Request, res: Response) => {
   req.cookies.authToken
     ? res.json({ isAuthenticated: true })
     : res.json({ isAuthenticated: false });

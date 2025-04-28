@@ -21,7 +21,7 @@ export default async function Home() {
     const [boutiquesRes] = await Promise.all([
       fetch(`${API_URL}/shops/promotedshops`, {
         headers: {
-          "x-api-key": process.env.API_KEY!,
+          "x-api-key": process.env.API_KEY,
         },
       }),
     ]);

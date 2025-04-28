@@ -23,7 +23,7 @@ export default async function ProductSliderServer({
       headers: {
         "x-api-key": API_KEY,
       },
-      cache: "no-store", // Adjust caching as needed
+      cache: "no-store", 
     });
 
     if (!response.ok) {
