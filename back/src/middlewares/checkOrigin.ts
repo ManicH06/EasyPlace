@@ -9,12 +9,15 @@ export const checkOrigin = (
   const origin = req.headers.origin;
 
   if (!origin) {
-    next();
-  } 
-
-  if (origin && !origin.startsWith(allowedOrigin)) {
-     res.status(403).json({ message: "Forbidden" });
+    next(); 
     return;
   }
-  next();
+
+  if (origin && !origin.startsWith(allowedOrigin)) {
+    console.warn(`Forbidden origin: ${origin}`);
+    res.status(403).json({ message: "Forbidden" });
+    return; 
+  }
+
+  next(); 
 };
