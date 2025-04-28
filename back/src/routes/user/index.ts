@@ -1,48 +1,38 @@
 // routes/user.routes.ts
 import { Router } from "express";
-import { 
-  createUser, 
-  getUsers, 
-  getUser, 
-  updateUser, 
-  deleteUser, 
-  login
+import {
+  createUser,
+  getUsers,
+  getUser,
+  updateUser,
+  deleteUser,
+  login,
 } from "../../controllers/userController";
-import { 
-  createUserValidator, 
-  updateUserValidator, 
-  checkValidationResult 
+import {
+  createUserValidator,
+  updateUserValidator,
+  checkValidationResult,
 } from "../../validators/user.validator";
 import { loginUserValidator } from "../../validators/login.userValidator";
-import { authToken } from "../../middlewares/authToken";
+import { authToken, isAdmin } from "../../middlewares/authToken";
 
 const router = Router();
 
-// Route pour créer un utilisateur
 router.post(
-  "/register", 
-  createUserValidator, 
-  checkValidationResult, 
+  "/register",
+  createUserValidator,
+  checkValidationResult,
   createUser
 );
 
 router.post("/login", loginUserValidator, login);
- 
-// Route pour récupérer tous les utilisateurs
-router.get("/", getUsers);
 
-// Route pour récupérer un utilisateur par son ID
-router.get("/:id", getUser);
+router.get("/", authToken, isAdmin, getUsers);
 
-// Route pour mettre à jour un utilisateur par son ID
-router.put(
-  "/:id", 
-  updateUserValidator, 
-  checkValidationResult, 
-  updateUser
-);
+router.get("/:id", authToken, getUser);
 
-// Route pour supprimer un utilisateur par son ID
+router.put("/:id", updateUserValidator, checkValidationResult, updateUser);
+
 router.delete("/:id", deleteUser);
 
 export default router;

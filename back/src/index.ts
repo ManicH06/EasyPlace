@@ -20,7 +20,6 @@ app.use(
   })
 );
 /* app.use(checkOrigin); */
-app.use(apiKeyAuth);
 app.use(express.json());
 app.use(router);
 // Démarrer le serveur

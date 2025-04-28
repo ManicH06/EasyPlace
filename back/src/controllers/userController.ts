@@ -59,18 +59,30 @@ export const getUsers = async (req: Request, res: Response) => {
 };
 
 // Récupérer un utilisateur via son id
-export const getUser = async (req: Request, res: Response) => {
+export const getUser = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { id } = req.params;
-    const user = await User.findByPk(id, {
+    const authenticatedUserId = (req.user as { id: number }).id;
+    const requestedId = req.params.id;
+
+    if (requestedId && parseInt(requestedId) !== authenticatedUserId) {
+      res.status(403).json({
+        error:
+          "Vous n'êtes pas autorisé à accéder aux informations de cet utilisateur.",
+      });
+      return;
+    }
+
+    const user = await User.findByPk(authenticatedUserId, {
       include: [{ association: "role" }],
     });
+
     if (user) {
       res.status(200).json(user);
     } else {
       res.status(404).json({ error: "Utilisateur non trouvé" });
     }
   } catch (error) {
+    console.error("Erreur lors de la récupération de l'utilisateur:", error);
     res.status(500).json({
       error: "Erreur lors de la récupération de l'utilisateur",
       details: error,
@@ -153,7 +165,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     }
     // Création du token JWT
     const token = jwt.sign(
-      { id: user.id, email: user.email },
+      { id: user.id, email: user.email, roleId: user.roleId },
       process.env.JWT_SECRET as string,
       { expiresIn: "1h" }
     );

@@ -7,7 +7,7 @@ import HTTPError from "./errors/HTTPError";
 import sequelize from "./db/db";
 import { connectToDB } from "./db/db";
 import { Request, Response } from "express";
-import { authToken } from "./middlewares/authToken";
+import { authToken, isAdmin } from "./middlewares/authToken";
 
 const router = Router();
 
