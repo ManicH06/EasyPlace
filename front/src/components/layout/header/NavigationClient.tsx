@@ -4,7 +4,6 @@ import * as React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
-import axios from "axios";
 import { Menu, UserCircle } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 
@@ -26,21 +25,23 @@ const links = [
   { href: "/contact", label: "Contact" },
 ];
 
-interface NavigationProps {
+interface NavigationClientProps {
   onMenuToggle: React.Dispatch<React.SetStateAction<boolean>>;
+  isAuthenticatedSSR: boolean; // Prop to receive server-side auth status
 }
 
-export default function Navigation({ onMenuToggle }: NavigationProps) {
+export default function NavigationClient({
+  onMenuToggle,
+  isAuthenticatedSSR,
+}: NavigationClientProps) {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
 
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const userLink = isAuthenticated ? "/profile-user" : "/auth";
+  const [isAuthenticatedClient] = useState<boolean>(isAuthenticatedSSR);
+  const userLink = isAuthenticatedClient ? "/profile-user" : "/auth";
 
-  // State to control navbar visibility
   const [showNavbar, setShowNavbar] = useState(true);
-  // Ref to store the last scroll position
   const lastScrollY = useRef(0);
 
   useEffect(() => {
@@ -59,40 +60,21 @@ export default function Navigation({ onMenuToggle }: NavigationProps) {
   }, []);
 
   useEffect(() => {
-    // Vérification de l'authentification via le backend
-    const checkAuth = async () => {
-      try {
-        const token = await axios.get(`${process.env.API_URL}/auth/status`, {
-          withCredentials: true,
-          headers: {
-            "x-api-key": process.env.API_KEY,
-          },
-        });
-        setIsAuthenticated(token.data.isAuthenticated);
-      } catch (error) {
-        console.error(
-          "Erreur lors de la vérification de l'authentification :",
-          error
-        );
-        setIsAuthenticated(false);
-      }
-    };
-    checkAuth();
     onMenuToggle(isOpen);
   }, [isOpen, onMenuToggle, pathname]);
 
   const handleNavigation = () => {
-    if (isAuthenticated) {
-      router.push("/profile-user"); // Redirect to profile
+    if (isAuthenticatedClient) {
+      router.push("/profile-user");
     } else {
-      router.push("/auth"); // Redirect to login
+      router.push("/auth");
     }
   };
+
   return (
     <nav
       className={cn(
         "sticky top-0 z-50 bg-black bg-opacity-50 px-4 py-4 transition-transform duration-300",
-        // Apply transform based on scroll direction
         showNavbar ? "translate-y-0" : "-translate-y-full"
       )}
     >
@@ -101,7 +83,6 @@ export default function Navigation({ onMenuToggle }: NavigationProps) {
           <Image width={250} height={100} src="logo.svg" alt="logo easyplace" />
         </Link>
 
-        {/* Desktop Navigation */}
         <div className="hidden items-center gap-8 md:flex">
           {links.map((link) => (
             <Link
@@ -127,7 +108,6 @@ export default function Navigation({ onMenuToggle }: NavigationProps) {
           </Link>
         </div>
 
-        {/* Mobile Navigation */}
         <div className="flex items-center gap-4 md:hidden">
           <Link
             href={userLink}

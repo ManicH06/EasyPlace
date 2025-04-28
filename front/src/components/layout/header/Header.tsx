@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import Nav from "./Nav";
+import Nav from "./NavigationClient";
 
 export default function Header() {
   // Désactivation regles eslint pour les variables non utilisées
@@ -9,7 +9,7 @@ export default function Header() {
 
   return (
     <>
-      <Nav onMenuToggle={setIsMenuOpen} />
+      <Nav onMenuToggle={setIsMenuOpen} isAuthenticatedSSR={false} />
     </>
   );
 }
