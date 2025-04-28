@@ -58,11 +58,11 @@ fs.readdirSync(modelsPath)
 
 associate();
 
-// Configurer les associations des modèles, si nécessaire
+/* // Configurer les associations des modèles, si nécessaire
 Object.keys(models).forEach((modelName) => {
   if (models[modelName].associate) {
     models[modelName].associate(models);
   }
-});
+}); */
 
 export default models;
