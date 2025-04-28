@@ -1,7 +1,6 @@
 import dotenv from "dotenv";
 import path = require("path");
 dotenv.config({ path: path.resolve(process.cwd(), ".env") });
-// config.ts
 
 interface DialectOptions {
   ssl?: {
