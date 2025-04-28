@@ -1,6 +1,5 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import sequelize from "../src/db/db";
-import User from "./User";
 
 interface OrderAttributes {
   id: number;
@@ -44,6 +43,9 @@ Order.init(
   }
 );
 
+
+
+const User = require("./User").default;
 // Relations
 Order.belongsTo(User, { foreignKey: "userId", as: "user" });
 User.hasMany(Order, { foreignKey: "userId", as: "orders" });
