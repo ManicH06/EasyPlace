@@ -10,7 +10,10 @@ interface OrderAttributes {
 
 interface OrderCreationAttributes extends Optional<OrderAttributes, "id"> {}
 
-class Order extends Model<OrderAttributes, OrderCreationAttributes> implements OrderAttributes {
+class Order
+  extends Model<OrderAttributes, OrderCreationAttributes>
+  implements OrderAttributes
+{
   public id!: number;
   public order_date!: Date;
   public status!: string;
@@ -43,12 +46,8 @@ Order.init(
   }
 );
 
-
-
-// after init()
-const importedUser = require("./User");
+const importedUser = require("./User.js");
 const User = importedUser.default || importedUser;
-
 // Relations
 Order.belongsTo(User, { foreignKey: "userId", as: "user" });
 User.hasMany(Order, { foreignKey: "userId", as: "orders" });
