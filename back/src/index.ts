@@ -18,8 +18,8 @@ app.use(
     credentials: true,
   })
 );
-app.use(checkOrigin);
-app.use(express.json());
+/* app.use(checkOrigin);
+ */app.use(express.json());
 app.use(router);
 
 if (process.env.NODE_ENV !== "test") {
