@@ -6,9 +6,12 @@ sequenceDiagram
     participant Database
 
     Producer->>Frontend: Manage products (CRUD)
-    Frontend->>Backend: Send action request (with data)
-    Backend->>Database: Query/Modify products
-
+    Frontend ->> Backend : Send action request (with data)
+    alt **Authentifié ET autorisé ?**
+    Backend ->> Database : Query/Modify products
+    else Non
+    Backend ->> Frontend : Error 403 (Forbidden)
+    end
     alt Success
         Database-->>Backend: Success (data or confirmation)
         Backend-->>Frontend: Send success response

@@ -4,27 +4,28 @@ start
 :Accès au site;
 :Navigation libre;
 :Recherche de produit;
-:Voir les boutiques et produits;
 
-if (Produit trouvé ?) then (Oui)
-  :Voir les détails;
-  if (Souhaite réserver ?) then (Oui)
-    if (Connecté ?) then (Oui)
-      :Réserver le produit;
-      :Confirmation commerçant;
-      if (Produit confirmé ?) then (Oui)
-        :Valider la transaction;
-      else (Non)
-        :Produit indisponible;
-      endif
-    else (Non)
-      :Redirection vers Connexion ou Création de compte;
-    endif
+while (Produit trouvé ?) is (Non)
+  :Changer les filtres;
+  :Voir les boutiques et produits;
+endwhile (Oui)
+
+:Voir les détails;
+
+if (Souhaite réserver ?) then (Oui)
+  while (Connecté ?) is (Non)
+    :Redirection vers Connexion ou Création de compte;
+  endwhile (Oui)
+
+  :Réserver le produit;
+  :Confirmation commerçant;
+  if (Produit confirmé ?) then (Oui)
+    :Valider la transaction;
   else (Non)
-    :Ajouter aux favoris (si connecté);
+    :Produit indisponible;
   endif
 else (Non)
-  :Changer les filtres;
+  :Ajouter aux favoris (si connecté);
 endif
 
 stop

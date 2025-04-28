@@ -1,6 +1,7 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import sequelize from "../src/db/db";
 import Role from "./Role";
+import Order from "./Order";
 
 interface UserAttributes {
   id: number;
@@ -61,4 +62,5 @@ User.init(
 User.belongsTo(Role, { foreignKey: "roleId", as: "role" });
 Role.hasMany(User, { foreignKey: "roleId", as: "users" });
 
+User.hasMany(Order, { foreignKey: "userId", as: "orders" });
 export default User;

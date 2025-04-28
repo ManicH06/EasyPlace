@@ -1,5 +1,6 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import sequelize from "../src/db/db";
+import OrderLine from "./OrderLine";
 
 interface ProductAttributes {
   id: number;
@@ -62,7 +63,7 @@ Product.init(
     },
     shopId: {
       type: DataTypes.INTEGER,
-      allowNull: true,
+      allowNull: false,
     },
   },
   {
@@ -70,5 +71,7 @@ Product.init(
     tableName: "products",
   }
 );
+
+Product.hasMany(OrderLine, { foreignKey: "productId", as: "orderLines" });
 
 export default Product;

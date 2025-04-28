@@ -2,6 +2,7 @@
 
 erDiagram
 
+
     ROLE {
         int id PK
         string name
@@ -68,6 +69,7 @@ erDiagram
         string content
         date send_date
         int order_id FK
+        int user_id FK
         timestamp created_at
         timestamp updated_at
     }
@@ -102,19 +104,18 @@ erDiagram
         timestamp updated_at
     }
 
-    ROLE ||--o{ USER : "1,n"
-    USER ||--o{ ORDER : "1,n"
-    USER ||--o{ MESSAGE : "1,n"
-    USER ||--o{ REVIEW : "1,n"
-    USER ||--o{ PRODUCT : "1,n"
-    USER ||--o{ SHOP : "1,n"
-    SHOP ||--o{ PRODUCT : "1,n"
+    ROLE ||--o{ USER : "0,n"
+    USER ||--o{ ORDER : "0,n"
+    USER ||--o{ MESSAGE : "0,n"
+    USER ||--o{ REVIEW : "0,n"
+    USER ||--o{ SHOP : "0,n"
+    SHOP ||--o{ PRODUCT : "0,n"
     SHOP ||--o{ MEDIA : "0,n"
-    PRODUCT ||--o{ ORDER_LINE : "1,n"
+    PRODUCT ||--o{ ORDER_LINE : "0,n"
     PRODUCT ||--o{ REVIEW : "0,n"
     PRODUCT ||--o{ MEDIA : "0,n"
     ORDER ||--|{ ORDER_LINE : "1,n"
-    ORDER ||--o{ MESSAGE : "0,n"
+    ORDER ||--o{ MESSAGE : "0,1"
     REVIEW ||--|| REVIEW_REPLY : "1,1"
 
 ```

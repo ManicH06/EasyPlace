@@ -95,7 +95,7 @@ export const createShop = async (
       type,
     } = req.body;
     if (!req.user) {
-      res.status(400).json({ error: "Utilisateur non authentifié" });
+      res.status(401).json({ error: "Utilisateur non authentifié" });
       return;
     }
     const userId = req.user.id;
