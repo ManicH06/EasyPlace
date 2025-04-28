@@ -116,6 +116,7 @@ export const createShop = async (
       userId,
     });
     res.status(201).json(shop);
+    return;
   } catch (error) {
     res.status(500).json({
       error: "Erreur lors de la création de la boutique",
