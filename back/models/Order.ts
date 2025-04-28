@@ -1,5 +1,6 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import sequelize from "../src/db/db";
+import User from "./User";
 
 interface OrderAttributes {
   id: number;
@@ -46,5 +47,8 @@ Order.init(
   }
 );
 
+// Associations
+Order.belongsTo(User, { foreignKey: "userId", as: "user" });
+User.hasMany(Order, { foreignKey: "userId", as: "orders" });
 
 export default Order;

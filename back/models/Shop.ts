@@ -1,5 +1,7 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import sequelize from "../src/db/db";
+import User from "./User";
+import Product from "./Product";
 
 interface ShopAttributes {
   id: number;
@@ -104,4 +106,10 @@ Shop.init(
   }
 );
 
+// Associations
+Shop.belongsTo(User, { foreignKey: "userId", as: "user" });
+User.hasMany(Shop, { foreignKey: "userId", as: "shops" });
+
+Shop.hasMany(Product, { foreignKey: "shopId", as: "products" });
+Product.belongsTo(Shop, { foreignKey: "shopId", as: "shop" });
 export default Shop;
