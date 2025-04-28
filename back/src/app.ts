@@ -1,4 +1,4 @@
-import { apiKeyAuth } from './middlewares/apiKeyAuth';
+import { apiKeyAuth } from "./middlewares/apiKeyAuth";
 import { Router } from "express";
 import shopRouter from "./routes/shop/index";
 import userRouter from "./routes/user/index";
@@ -11,12 +11,11 @@ import { Request, Response } from "express";
 
 const router = Router();
 
-
 router.use("/shops", apiKeyAuth, shopRouter);
 router.use("/users", userRouter);
 router.use("/products", apiKeyAuth, productRouter);
 
-router.get("/auth/status", (req: Request, res: Response) => {
+router.get("/auth/status", apiKeyAuth, (req: Request, res: Response) => {
   req.cookies.authToken
     ? res.json({ isAuthenticated: true })
     : res.json({ isAuthenticated: false });
