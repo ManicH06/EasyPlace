@@ -16,10 +16,12 @@ export const getAllProducts = async (
     res.status(200).json(products);
   } catch (error) {
     console.error("Error in getAllProducts:", error);
-    res.status(500).json({
-      error: "Erreur lors de la récupération des produits",
-      deatils: error,
-    });
+    if (!res.headersSent) {
+      res.status(500).json({
+        error: "Erreur lors de la récupération des produits",
+        deatils: error,
+      });
+    }
     return;
   }
 };

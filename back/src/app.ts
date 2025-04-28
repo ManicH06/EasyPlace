@@ -1,3 +1,4 @@
+import { apiKeyAuth } from './middlewares/apiKeyAuth';
 import { Router } from "express";
 import shopRouter from "./routes/shop/index";
 import userRouter from "./routes/user/index";
@@ -15,11 +16,11 @@ router.get("/", (req: Request, res: Response) => {
   res.send("Hello, bienvenue sur l’API !");
 });
 
-router.use("/shops", shopRouter);
+router.use("/shops", apiKeyAuth, shopRouter);
 router.use("/users", userRouter);
-router.use("/products", productRouter);
+router.use("/products", apiKeyAuth, productRouter);
 
-router.get("/auth/status", (req: Request, res: Response) => {
+router.get("/auth/status", apiKeyAuth, (req: Request, res: Response) => {
   req.cookies.authToken
     ? res.json({ isAuthenticated: true })
     : res.json({ isAuthenticated: false });

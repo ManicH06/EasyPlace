@@ -19,7 +19,6 @@ app.use(
     credentials: true,
   })
 );
-app.use(apiKeyAuth); // Middleware d'authentification par clé API
 app.use(checkOrigin);
 app.use(express.json());
 app.use(router);
