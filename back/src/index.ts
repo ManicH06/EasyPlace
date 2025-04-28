@@ -4,8 +4,7 @@ import router from "./app";
 import cors from "cors"; // Import du module cors pour
 import path from "path";
 import cookieParser from "cookie-parser"; // pour lire les cookies dans les requêtes
-import { apiKeyAuth } from "./middlewares/apiKeyAuth";
-import { checkOrigin } from "./middlewares/checkOrigin";
+
 
 dotenv.config({ path: path.resolve(process.cwd(), "../.env") });
 const app = express();

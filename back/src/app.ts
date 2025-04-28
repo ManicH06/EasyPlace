@@ -11,10 +11,6 @@ import { Request, Response } from "express";
 
 const router = Router();
 
-// Route GET sur "/"
-router.get("/", (req: Request, res: Response) => {
-  res.send("Hello, bienvenue sur l’API !");
-});
 
 router.use("/shops", apiKeyAuth, shopRouter);
 router.use("/users", userRouter);
